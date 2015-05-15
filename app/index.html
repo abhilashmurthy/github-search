@@ -33,7 +33,7 @@
 				md-selected-item="ctrl.selectedItem"
 				md-search-text="ctrl.searchText"
 				md-items="item in ctrl.querySearch(ctrl.searchText)"
-				md-item-text="item.display"
+				md-item-text="item ? item.display : ''"
 				md-floating-label="Enter keyword..">
 			  <span md-highlight-text="ctrl.searchText">{{item.display}}</span>
 			</md-autocomplete>
@@ -75,6 +75,8 @@
 		<!-- build:js({.tmp,app}) scripts/scripts.js -->
 		<script src="scripts/app.js"></script>
 		<script src="scripts/controllers/githubsearch.js"></script>
+<script src="scripts/services/githubconfig.js"></script>
+<script src="scripts/services/repomanager.js"></script>
 		<!-- endbuild -->
 </body>
 </html>

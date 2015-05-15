@@ -7,12 +7,8 @@
             self.selectedItem = null;
             self.searchText = null;
 
-            // ******************************
-            // Internal methods
-            // ******************************
             /**
-             * Search for states... use $timeout to simulate
-             * remote dataservice call.
+             * Search for past keywords for query
              */
             function querySearch(query) {
                 var results = query ? self.states.filter(createFilterFor(query)) : [];
@@ -20,20 +16,17 @@
             }
 
             self.querySearch = querySearch;
-            /**
-             * Build `states` list of key/value pairs
-             */
-            function loadAll() {
-                    var allStates = 'Alabama, Alaska, Arizona, Arkansas, California, Colorado, Connecticut, Delaware';
-                    return allStates.split(/, +/g).map(function(state) {
-                        return {
-                            value: state.toLowerCase(),
-                            display: state
-                        };
-                    });
-                }
-                // list of `state` value/display objects
-            self.states = loadAll();
+            // function loadAll() {
+            //         var allStates = 'Alabama, Alaska, Arizona, Arkansas, California, Colorado, Connecticut, Delaware';
+            //         return allStates.split(/, +/g).map(function(state) {
+            //             return {
+            //                 value: state.toLowerCase(),
+            //                 display: state
+            //             };
+            //         });
+            //     }
+            self.states = [];
+
             /**
              * Create filter function for a query string
              */
