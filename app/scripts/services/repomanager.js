@@ -12,15 +12,15 @@ angular.module('githubSearchApp')
         return {
             searchRepos: function(query) {
                 var deferred = $q.defer();
-                $http.get(GITHUB.endpoint + '?q=' + query)
+                $http.get(GITHUB_CONFIG.endpoint + '?q=' + query)
                     .success(function(response, status, getResponseHeaders) {
                         console.log(status);
                         var toReturn = {
-                            rate_limit_remaining: getResponseHeaders()[GITHUB.rate_limit_header],
+                            rate_limit_remaining: getResponseHeaders()[GITHUB_CONFIG.rate_limit_header],
                             repos: []
                         };
-                        for (var i = 0; i < response[GITHUB.response_array].length; i++) {
-                            toReturn.repos.push(new Repo(response[GITHUB.response_array][i]));
+                        for (var i = 0; i < response[GITHUB_CONFIG.response_array].length; i++) {
+                            toReturn.repos.push(new Repo(response[GITHUB_CONFIG.response_array][i]));
                         }
                         deferred.resolve(toReturn);
                     })
@@ -31,7 +31,7 @@ angular.module('githubSearchApp')
                             };
                             deferred.resolve(toReturn);
                         }
-                    })
+                    });
                 return deferred.promise;
             }
         };
@@ -39,8 +39,9 @@ angular.module('githubSearchApp')
     .factory('Repo', function() {
         function Repo(data) {
             for (var attr in data) {
-                if (data.hasOwnProperty(attr))
+                if (data.hasOwnProperty(attr)) {
                     this[attr] = data[attr];
+                }
             }
         }
         return Repo;

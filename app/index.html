@@ -34,7 +34,8 @@
 				md-search-text="ctrl.searchText"
 				md-items="item in ctrl.querySearch(ctrl.searchText)"
 				md-item-text="item ? item.display : ''"
-				md-floating-label="Enter keyword..">
+				md-floating-label="Enter keyword.."
+				ng-enter="ctrl.searchGithub()">
 			  <span md-highlight-text="ctrl.searchText">{{item.display}}</span>
 			</md-autocomplete>
 		  </span>
@@ -77,6 +78,7 @@
 		<script src="scripts/controllers/githubsearch.js"></script>
 <script src="scripts/services/githubconfig.js"></script>
 <script src="scripts/services/repomanager.js"></script>
+<script src="scripts/directives/ngenter.js"></script>
 		<!-- endbuild -->
 </body>
 </html>
