@@ -1,0 +1,26 @@
+html {
+  font-size: 20px;
+}
+
+body {
+  padding: 0;
+}
+
+.md-toolbar-tools h2 {
+  font-size: 1.2rem;
+}
+
+#searchInput {
+  margin-top: 0.5em;
+  font-size: 1rem;
+}
+
+#searchInput label, #searchInput input {
+  color: white;
+}
+
+@media screen and (max-width: 600px) {
+  .md-toolbar-tools h2 {
+    font-size: 1rem;
+  }
+}
