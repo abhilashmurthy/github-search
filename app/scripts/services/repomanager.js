@@ -14,7 +14,6 @@ angular.module('githubSearchApp')
                 var deferred = $q.defer();
                 $http.get(GITHUB_CONFIG.endpoint + '?q=' + query)
                     .success(function(response, status, getResponseHeaders) {
-                        console.log(status);
                         var toReturn = {
                             rate_limit_remaining: getResponseHeaders()[GITHUB_CONFIG.rate_limit_header],
                             repos: []

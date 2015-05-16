@@ -2,7 +2,7 @@
 <html class="no-js">
   <head>
 	<meta charset="utf-8">
-	<title></title>
+	<title>Github Repo</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width">
 	<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -13,13 +13,14 @@
 	<!-- endbuild -->
 	<!-- build:css(.tmp) styles/main.css -->
 	<link rel="stylesheet" href="styles/main.css">
+	<link rel="stylesheet" href="styles/animations.css">
 	<!-- endbuild -->
   </head>
   <body ng-app="githubSearchApp">
 	<!--[if lt IE 7]>
 	  <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 	<![endif]-->
-	<div ng-controller="GithubSearchCtrl as ctrl">
+	<div ng-controller="GithubSearchCtrl">
 
 	  <!-- Add your site or application content here -->
 	  <md-toolbar>
@@ -29,21 +30,41 @@
 		  </h2>
 		  <span id="searchInput" flex>
 			<md-autocomplete flex
-				md-no-cache="ctrl.noCache"
-				md-selected-item="ctrl.selectedItem"
-				md-search-text="ctrl.searchText"
-				md-items="item in ctrl.querySearch(ctrl.searchText)"
+				md-no-cache="noCache"
+				md-selected-item="selectedItem"
+				md-search-text="searchText"
+				md-items="item in querySearch(searchText)"
 				md-item-text="item ? item.display : ''"
-				md-floating-label="Enter keyword.."
-				ng-enter="ctrl.searchGithub()">
-			  <span md-highlight-text="ctrl.searchText">{{item.display}}</span>
+				md-floating-label="Enter a keyword"
+				ng-enter="searchGithub()">
+			  <span md-highlight-text="searchText">{{item.display}}</span>
 			</md-autocomplete>
 		  </span>
 		</div>
 	  </md-toolbar>
 
 	  <div class="container">
-	  </div>
+	  		<div class="categoriesSelection" layout-gt-md="row" layout="column" layout-align="center left">
+	  			<span style="line-height: 2.25em;" flex="20">Searching in</span>
+	  			<md-checkbox aria-label="category.name" flex="20"
+	  				ng-repeat="category in categories" 
+	  				ng-model="category.selected"
+  				>{{category.name}}</md-checkbox>
+	  		</div>
+	  		<div class="results">
+				<md-card class="resultCard" ng-repeat="result in results">
+					<md-card-content>
+						<h2 class="md-title"
+							ng-model="result"
+							ng-click="showResult(result)">{{result.full_name}}</h2>
+						<p class="animate-hide" ng-hide="!result.show">Language: {{result.language}}</p>
+						<p class="animate-hide" ng-hide="!result.show">Followers: {{result.followers}}</p>
+						<p class="animate-hide" ng-hide="!result.show">URL: {{result.git_url}}</p>
+						<p class="animate-hide" ng-hide="!result.show">Description: {{result.description}}</p>
+					</md-card-content>
+				</md-card>
+	  		</div>
+		</div>
 
 	</div>
 

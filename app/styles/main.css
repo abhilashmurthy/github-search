@@ -1,3 +1,5 @@
+/** DEFAULTS **/
+
 html {
   font-size: 20px;
 }
@@ -5,6 +7,15 @@ html {
 body {
   padding: 0;
 }
+
+.container {
+	width: 60%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 2em;
+}
+
+/** NAVBAR **/
 
 .md-toolbar-tools h2 {
   font-size: 1.2rem;
@@ -18,6 +29,15 @@ body {
 #searchInput label, #searchInput input {
   color: white;
 }
+
+/** RESULTS **/
+
+md-card {
+	margin-top: 20px;
+	transition: 0.02s padding cubic-bezier(0.35, 0, 0.25, 1);
+}
+
+/** RESPONSIVE **/
 
 @media screen and (max-width: 600px) {
   .md-toolbar-tools h2 {

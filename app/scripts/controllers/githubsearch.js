@@ -1,73 +1,104 @@
-(function() {
-    'use strict';
-    angular
-        .module('githubSearchApp', ['ngMaterial'])
-        .controller('GithubSearchCtrl', function($mdToast, RepoManager) {
-            var self = this;
-            self.selectedItem = null;
-            self.searchText = null;
+'use strict';
 
-            /**
-             * Search for past keywords for query
-             */
-            function querySearch(query) {
-                var results = query ? self.states.filter(createFilterFor(query)) : [];
-                return results;
-            }
+angular
+    .module('githubSearchApp', ['ngMaterial'])
+    .controller('GithubSearchCtrl', function($scope, GITHUB_CONFIG, RepoManager, $mdToast) {
+        $scope.selectedItem = null;
+        $scope.searchText = null;
 
-            self.querySearch = querySearch;
-            function loadAll() {
-                    var allStates = 'Alabama, Alaska, Arizona, Arkansas, California, Colorado, Connecticut, Delaware';
-                    return allStates.split(/, +/g).map(function(state) {
-                        return {
-                            value: state.toLowerCase(),
-                            display: state
-                        };
-                    });
-                }
-            self.states = loadAll();
+        /**
+         * Search for past keywords for query
+         */
+        $scope.querySearch = function querySearch(query) {
+            var results = query ? $scope.states.filter(function (state) {
+                return state.value.indexOf(angular.lowercase(query)) === 0;
+            }) : [];
+            return results;
+        };
 
-            /**
-             * Create filter function for a query string
-             */
-            function createFilterFor(query) {
-                var lowercaseQuery = angular.lowercase(query);
-                return function filterFn(state) {
-                    return (state.value.indexOf(lowercaseQuery) === 0);
+        function loadAll() {
+            var allStates = 'Alabama, Alaska, Arizona, Arkansas, California, Colorado, Connecticut, Delaware';
+            return allStates.split(/, +/g).map(function(state) {
+                return {
+                    value: state.toLowerCase(),
+                    display: state
                 };
+            });
+        }
+        $scope.states = loadAll();
+
+        /* TOAST */
+
+        $scope.toastPosition = {
+            bottom: false,
+            top: true,
+            left: false,
+            right: true
+        };
+
+        $scope.getToastPosition = function() {
+            return Object.keys($scope.toastPosition)
+                .filter(function(pos) {
+                    return $scope.toastPosition[pos];
+                })
+                .join(' ');
+        };
+
+        function searchGithub() {
+            if (!$scope.searchText) {
+                $mdToast.show(
+                    $mdToast.simple()
+                    .content('Please enter a keyword!')
+                    .position($scope.getToastPosition())
+                    .hideDelay(3000)
+                );
+                return;
             }
 
-            function searchGithub() {
-                if (!self.selectedItem) {
-                    $mdToast.show(
-                        $mdToast.simple()
-                            .content('Please enter a keyword!')
-                            .position('false true false true')
+            var searchIn = ' in:' + $scope.categories.filter(function (category) {
+                return category.selected;
+            }).map(function (category) {
+                return category.name;
+            }).join(',');
+
+            RepoManager.searchRepos($scope.searchText + searchIn)
+                .then(function(response) {
+                    $scope.results = response.repos;
+                    $scope.hasResults = response.repos && response.repos.length;
+                    $scope.rate_limit = parseInt(response.rate_limit_remaining);
+                    if (!$scope.hasResults) {
+                        $mdToast.show(
+                            $mdToast.simple()
+                            .content('No results found...')
+                            .position($scope.getToastPosition())
                             .hideDelay(3000)
-                    );
-                    return;
-                }
+                        );
+                        return false;
+                    }
+                    if ($scope.rate_limit < 5) {
+                        $mdToast.show(
+                            $mdToast.simple()
+                            .content('You can only search ' + ($scope.rate_limit + 1) + ' more times')
+                            .position($scope.getToastPosition())
+                            .hideDelay(3000)
+                        );
+                    }
+                });
+        }
+        $scope.searchGithub = searchGithub;
 
-                var searchIn = ' in:';
-                // searchIn += _.pluck(_.where($scope.categories, {selected: true}), 'name').join();
+        /* CATEGORIES */
+        $scope.categories = GITHUB_CONFIG.in_categories;
 
-                RepoManager.searchRepos(self.selectedItem + searchIn)
-                    .then(function (response) {
-                        console.log(response);
-                        // $scope.results = response.repos;
-                        // $scope.hasResults = response.repos && response.repos.length;
-                        // $scope.rate_limit = parseInt(response.rate_limit_remaining);
-                        // if (!$scope.hasResults) {
-                        //     // Materialize.toast('No results found...', 3000);
-                        //     return false;
-                        // }
-                        // if ($scope.rate_limit < 5) {
-                        //     // Materialize.toast('You can only search ' + ($scope.rate_limit + 1) + ' more times', 3000);
-                        // }
-                        // // Materialize.showStaggeredList('#resultsList');
-                    });
+        /* RESULTS */
+        $scope.showResult = function (result) {
+            if (!result.show) {
+                result.show = true;
+            } else {
+                result.show = !result.show;
             }
-            self.searchGithub = searchGithub;
+            return false;
+        };
 
-        });
-})();
+
+    });
