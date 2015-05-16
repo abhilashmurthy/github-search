@@ -1,11 +1,6 @@
 .animate-hide {
   -webkit-transition: all linear 0.5s;
   transition: all linear 0.5s;
-  line-height: 20px;
-  opacity: 1;
-  padding: 10px;
-  border: 1px solid black;
-  background: white;
 }
 
 .animate-hide.ng-hide {

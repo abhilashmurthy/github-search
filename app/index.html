@@ -25,32 +25,29 @@
 	  <!-- Add your site or application content here -->
 	  <md-toolbar>
 		<div class="md-toolbar-tools" layout="row">
-		  <h2 flex="20" flex-md="30" flex-sm="40">
-			<span>Github Repo Search</span>
-		  </h2>
-		  <span id="searchInput" flex>
+		  <span id="searchInput" flex="60">
 			<md-autocomplete flex
 				md-no-cache="noCache"
 				md-selected-item="selectedItem"
 				md-search-text="searchText"
 				md-items="item in querySearch(searchText)"
 				md-item-text="item ? item.display : ''"
-				md-floating-label="Enter a keyword"
+				md-floating-label="Search for a Github Repo"
 				ng-enter="searchGithub()">
 			  <span md-highlight-text="searchText">{{item.display}}</span>
 			</md-autocomplete>
 		  </span>
-		</div>
-	  </md-toolbar>
-
-	  <div class="container">
-	  		<div class="categoriesSelection" layout-gt-md="row" layout="column" layout-align="center left">
-	  			<span style="line-height: 2.25em;" flex="20">Searching in</span>
-	  			<md-checkbox aria-label="category.name" flex="20"
+	  		<div class="categoriesSelection" layout-gt-sm="row" layout="column" layout-align="center left" flex>
+	  			<span style="line-height: 2.25em;" flex="10">in</span>
+	  			<md-checkbox aria-label="category.name" flex="25"
 	  				ng-repeat="category in categories" 
 	  				ng-model="category.selected"
   				>{{category.name}}</md-checkbox>
 	  		</div>
+		</div>
+	  </md-toolbar>
+
+	  <div class="container">
 	  		<div class="results">
 				<md-card class="resultCard" ng-repeat="result in results">
 					<md-card-content>
