@@ -24,6 +24,7 @@ angular.module('githubSearchApp')
                         deferred.resolve(toReturn);
                     })
                     .error(function(response, status) {
+                        console.log(status);
                         if (status === 403) {
                             var toReturn = {
                                 rate_limit_remaining: 0

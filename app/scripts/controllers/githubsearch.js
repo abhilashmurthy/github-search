@@ -2,19 +2,16 @@
 
 angular
     .module('githubSearchApp', ['ngMaterial'])
-    .controller('GithubSearchCtrl', function($scope, GITHUB_CONFIG, RepoManager, $mdToast) {
+    .controller('GithubSearchCtrl', function($scope, GITHUB_CONFIG, RepoManager, $timeout, $mdToast) {
+        /* SEARCH */
         $scope.selectedItem = null;
         $scope.searchText = null;
 
-        /**
-         * Search for past keywords for query
-         */
-        $scope.querySearch = function querySearch(query) {
-            var results = query ? $scope.states.filter(function (state) {
-                return state.value.indexOf(angular.lowercase(query)) === 0;
-            }) : [];
-            return results;
-        };
+        /* CATEGORIES */
+        $scope.categories = GITHUB_CONFIG.in_categories;
+        $scope.selectedCategories = $scope.categories.map(function (category) {
+            return category.name;
+        });
 
         function loadAll() {
             var allStates = 'Alabama, Alaska, Arizona, Arkansas, California, Colorado, Connecticut, Delaware';
@@ -26,6 +23,16 @@ angular
             });
         }
         $scope.states = loadAll();
+
+        /**
+         * Search for past keywords for query
+         */
+        $scope.filterAutocomplete = function filterAutocomplete(query) {
+            var results = query ? $scope.states.filter(function (state) {
+                return state.value.indexOf(angular.lowercase(query)) === 0;
+            }) : [];
+            return results;
+        };
 
         /* TOAST */
 
@@ -44,24 +51,80 @@ angular
                 .join(' ');
         };
 
-        function searchGithub() {
-            if (!$scope.searchText) {
+        /** SEARCH **/
+        function validateSearchText() {
+            if (!$scope.searchText || $scope.searchText.length === 0) {
+                return false;
+            }
+            if ($scope.searchText.length < 3) {
                 $mdToast.show(
                     $mdToast.simple()
-                    .content('Please enter a keyword!')
+                    .content('Please enter a keyword with at least 3 chars!')
                     .position($scope.getToastPosition())
                     .hideDelay(3000)
                 );
-                return;
+                return false;
             }
+            return true;
+        }
 
-            var searchIn = ' in:' + $scope.categories.filter(function (category) {
-                return category.selected;
-            }).map(function (category) {
-                return category.name;
-            }).join(',');
+        console.log('Selected categories');
+        console.log($scope.selectedCategories);
+        $scope.searchCategories = $scope.selectedCategories; //On init
+        function validateSearchCategories() {
+            if (!$scope.searchCategories || $scope.searchCategories.length === 0) {
+                $mdToast.show(
+                    $mdToast.simple()
+                    .content('Please select at least one search category!')
+                    .position($scope.getToastPosition())
+                    .hideDelay(3000)
+                );
+                return false;
+            }
+            return true;
+        }
 
-            RepoManager.searchRepos($scope.searchText + searchIn)
+        $scope.$watch('searchText', function () {
+            $scope.isEnteringText = false;
+            if (validateSearchText() && validateSearchCategories()) {
+                searchGithub();
+            }
+        });
+
+        $scope.changeEnteringText = function (event) {
+            if (event) {
+                var keyCode = event.which || event.keyCode;
+                if (keyCode === 0 || event.ctrlKey || event.metaKey || event.altKey) {
+                    $scope.isEnteringText = false;
+                    return false;
+                }
+            }
+            $scope.results = null;
+            $scope.isEnteringText = true;
+        };
+
+        var tempFilterText = '', filterTextTimeout;
+        $scope.$watch('selectedCategories', function (newValue) {
+            if (validateSearchText($scope.searchText)) {
+                $scope.changeEnteringText();
+                if (filterTextTimeout) {
+                    $timeout.cancel(filterTextTimeout);
+                }
+
+                tempFilterText = newValue;
+                filterTextTimeout = $timeout(function() {
+                    $scope.searchCategories = tempFilterText;
+                    $scope.isEnteringText = false;
+                    if (validateSearchCategories()) {
+                        searchGithub();
+                    }
+                }, 500);
+            }
+        });
+
+        function searchGithub() {
+            console.log('Searching: ' + $scope.searchText + ' in:' + $scope.searchCategories);
+            RepoManager.searchRepos($scope.searchText + ' in:' + $scope.searchCategories)
                 .then(function(response) {
                     $scope.results = response.repos;
                     $scope.hasResults = response.repos && response.repos.length;
@@ -78,7 +141,7 @@ angular
                     if ($scope.rate_limit < 5) {
                         $mdToast.show(
                             $mdToast.simple()
-                            .content('You can only search ' + ($scope.rate_limit + 1) + ' more times')
+                            .content('API rate limit: ' + ($scope.rate_limit + 1) + ' more times')
                             .position($scope.getToastPosition())
                             .hideDelay(3000)
                         );
@@ -86,9 +149,6 @@ angular
                 });
         }
         $scope.searchGithub = searchGithub;
-
-        /* CATEGORIES */
-        $scope.categories = GITHUB_CONFIG.in_categories;
 
         /* RESULTS */
         $scope.showResult = function (result) {

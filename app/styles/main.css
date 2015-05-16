@@ -36,7 +36,11 @@ body {
   color: white;
 }
 
-md-input-container .md-input {
+md-select-container .md-select {
+	border-color: white;
+}
+
+md-input-container .md-input .md-select {
 	border-color: white;
 }
 
@@ -47,6 +51,17 @@ md-input-container.md-default-theme:not(.md-input-invalid).md-input-focused .md-
 .categoriesSelection {
 	font-size: 1rem;
 	line-height: 0.5rem;
+}
+
+/** LOADING **/
+
+.progressCircularDiv {
+	margin-top: 4em;
+}
+
+md-progress-circular {
+	margin-left: auto;
+	margin-right: auto;
 }
 
 /** RESULTS **/

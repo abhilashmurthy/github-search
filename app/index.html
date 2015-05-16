@@ -23,44 +23,60 @@
 	<div ng-controller="GithubSearchCtrl">
 
 	  <!-- Add your site or application content here -->
-	  <md-toolbar>
-		<div class="md-toolbar-tools" layout="row">
-		  <span id="searchInput" flex="60">
-			<md-autocomplete flex
-				md-no-cache="noCache"
-				md-selected-item="selectedItem"
-				md-search-text="searchText"
-				md-items="item in querySearch(searchText)"
-				md-item-text="item ? item.display : ''"
-				md-floating-label="Search for a Github Repo"
-				ng-enter="searchGithub()">
-			  <span md-highlight-text="searchText">{{item.display}}</span>
-			</md-autocomplete>
-		  </span>
-	  		<div class="categoriesSelection" layout-gt-sm="row" layout="column" layout-align="center left" flex>
-	  			<span style="line-height: 2.25em;" flex="10">in</span>
-	  			<md-checkbox aria-label="category.name" flex="25"
-	  				ng-repeat="category in categories" 
-	  				ng-model="category.selected"
-  				>{{category.name}}</md-checkbox>
-	  		</div>
-		</div>
-	  </md-toolbar>
 
-	  <div class="container">
-	  		<div class="results">
+	  <!-- NAVBAR -->
+		<md-toolbar class="md-default-theme">
+			<div class="md-toolbar-tools" layout="row" layout-align="right right">
+				<span id="searchInput" flex>
+					<md-autocomplete
+					md-no-cache="noCache"
+					md-search-text="searchText"
+					md-items="item in filterAutocomplete(searchText)"
+					md-item-text="item ? item.display : ''"
+					md-floating-label="Search for a Github Repo"
+					ng-model-options="{debounce: 500}"
+					ng-keyup="changeEnteringText($event)">
+						<span md-highlight-text="searchText">{{item.display}}</span>
+					</md-autocomplete>
+				</span>
+				<span style="text-align:center;" flex="5">
+					in
+				</span>
+				<md-select multiple=true flex="10"
+					ng-model="selectedCategories">
+					<md-option
+						ng-selected=true 
+						ng-value="category.name" 
+						ng-repeat="category in categories">
+						{{category.name}}
+					</md-option>
+				</md-select>
+			</div>
+		</md-toolbar>
+
+		<!-- BODY -->
+		<div class="container">
+			<div class="progressCircularDiv" layout-align="row" layout-sm="column" layout-align="space-around"
+				ng-show="isEnteringText">
+				<md-progress-circular md-mode="indeterminate" flex></md-progress-circular>
+			</div>
+			<div class="results" 
+				ng-show="!isEnteringText && results">
+				<div style="margin-left: 8px;">Results for {{searchText}} in {{searchCategories}}</div>
 				<md-card class="resultCard" ng-repeat="result in results">
 					<md-card-content>
 						<h2 class="md-title"
-							ng-model="result"
-							ng-click="showResult(result)">{{result.full_name}}</h2>
+						ng-model="result"
+						ng-click="showResult(result)">
+							{{result.full_name}}
+						</h2>
 						<p class="animate-hide" ng-hide="!result.show">Language: {{result.language}}</p>
 						<p class="animate-hide" ng-hide="!result.show">Followers: {{result.followers}}</p>
 						<p class="animate-hide" ng-hide="!result.show">URL: {{result.git_url}}</p>
 						<p class="animate-hide" ng-hide="!result.show">Description: {{result.description}}</p>
 					</md-card-content>
 				</md-card>
-	  		</div>
+			</div>
 		</div>
 
 	</div>
