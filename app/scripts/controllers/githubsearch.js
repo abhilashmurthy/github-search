@@ -14,7 +14,9 @@ angular
         });
 
         /* RESULTS */
-        $scope.currentPaginationPage = 1;
+        $scope.results = [];
+        var currentPaginationPage = 1;
+
 
         function loadAll() {
             var allStates = 'Alabama, Alaska, Arizona, Arkansas, California, Colorado, Connecticut, Delaware';
@@ -100,7 +102,7 @@ angular
                     return false;
                 }
             }
-            $scope.results = null;
+            $scope.results = [];
             $scope.isEnteringText = true;
         };
 
@@ -125,11 +127,13 @@ angular
 
         function searchGithub() {
             console.log('Searching: ' + $scope.searchText + ' in:' + $scope.searchCategories);
-            RepoManager.searchRepos($scope.searchText + ' in:' + $scope.searchCategories)
+            RepoManager.searchRepos($scope.searchText + ' in:' + $scope.searchCategories, currentPaginationPage)
                 .then(function(response) {
+                    $scope.results.push(response.repos);
                     $scope.results = response.repos;
                     $scope.hasResults = response.repos && response.repos.length;
                     $scope.rate_limit = parseInt(response.rate_limit_remaining);
+                    $scope.resultsTotalCount = response.total_count;
                     if (!$scope.hasResults) {
                         $mdToast.show(
                             $mdToast.simple()
@@ -160,11 +164,4 @@ angular
             }
             return false;
         };
-
-        /* PAGE SCROLL */
-        // angular.element(window).scroll(function() {
-        //     if (angular.element(window).scrollTop() + angular.element(window).height() > (angular.element(document).height()) * 0.75) {
-        //         getNextPaginationPageResults();
-        //     }
-        // });
     });

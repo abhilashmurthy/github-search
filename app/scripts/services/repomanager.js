@@ -10,14 +10,13 @@
 angular.module('githubSearchApp')
     .service('RepoManager', ['$q', '$http', 'GITHUB_CONFIG', 'Repo', function($q, $http, GITHUB_CONFIG, Repo) {
         return {
-            searchRepos: function(query) {
+            searchRepos: function(query, page) {
                 var deferred = $q.defer();
-                $http.get(GITHUB_CONFIG.endpoint + '?q=' + query)
-                    .success(function(response, status, getResponseHeaders, config) {
-                        console.log(getResponseHeaders());
-                        console.log(config);
+                $http.get(GITHUB_CONFIG.endpoint + '?q=' + query + '&page=' + page)
+                    .success(function(response, status, getResponseHeaders) {
                         var toReturn = {
                             rate_limit_remaining: getResponseHeaders()[GITHUB_CONFIG.rate_limit_header],
+                            total_count: response[GITHUB_CONFIG.total_count],
                             repos: []
                         };
                         for (var i = 0; i < response[GITHUB_CONFIG.response_array].length; i++) {

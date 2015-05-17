@@ -61,8 +61,8 @@
 				<md-progress-circular md-mode="indeterminate" flex></md-progress-circular>
 			</div>
 			<div class="results"
-				ng-show="!isEnteringText && results">
-				<div style="margin-left: 8px;">Results for {{searchText}} in {{searchCategories}}</div>
+				ng-show="!isEnteringText && hasResults">
+				<div style="margin-left: 8px;">Found {{resultsTotalCount }} results for {{searchText}} in {{searchCategories}}</div>
 				<md-card class="resultCard" ng-repeat="result in results">
 					<md-card-content>
 						<h2 class="md-title"

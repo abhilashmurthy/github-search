@@ -23,7 +23,8 @@
                 'selected': true
             }],
             'rate_limit_header': 'x-ratelimit-remaining',
-            'response_array': 'items'
+            'response_array': 'items',
+            'total_count': 'total_count'
         });
 
 })();
