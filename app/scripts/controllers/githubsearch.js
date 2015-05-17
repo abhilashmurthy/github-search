@@ -13,6 +13,9 @@ angular
             return category.name;
         });
 
+        /* RESULTS */
+        $scope.currentPaginationPage = 1;
+
         function loadAll() {
             var allStates = 'Alabama, Alaska, Arizona, Arkansas, California, Colorado, Connecticut, Delaware';
             return allStates.split(/, +/g).map(function(state) {
@@ -68,8 +71,6 @@ angular
             return true;
         }
 
-        console.log('Selected categories');
-        console.log($scope.selectedCategories);
         $scope.searchCategories = $scope.selectedCategories; //On init
         function validateSearchCategories() {
             if (!$scope.searchCategories || $scope.searchCategories.length === 0) {
@@ -160,5 +161,10 @@ angular
             return false;
         };
 
-
+        /* PAGE SCROLL */
+        // angular.element(window).scroll(function() {
+        //     if (angular.element(window).scrollTop() + angular.element(window).height() > (angular.element(document).height()) * 0.75) {
+        //         getNextPaginationPageResults();
+        //     }
+        // });
     });

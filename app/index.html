@@ -60,7 +60,7 @@
 				ng-show="isEnteringText">
 				<md-progress-circular md-mode="indeterminate" flex></md-progress-circular>
 			</div>
-			<div class="results" 
+			<div class="results"
 				ng-show="!isEnteringText && results">
 				<div style="margin-left: 8px;">Results for {{searchText}} in {{searchCategories}}</div>
 				<md-card class="resultCard" ng-repeat="result in results">
@@ -113,6 +113,7 @@
 <script src="scripts/services/githubconfig.js"></script>
 <script src="scripts/services/repomanager.js"></script>
 <script src="scripts/directives/ngenter.js"></script>
+<script src="scripts/directives/scrolly.js"></script>
 		<!-- endbuild -->
 </body>
 </html>
