@@ -63,6 +63,15 @@ md-option.categoriesOption > div.md-text {
 	width: 100%;
 }
 
+/** SUMMARY **/
+div.summary {
+	margin-top: 3em;
+}
+
+.summaryHighlight {
+	color: rgb(63,81,181);
+}
+
 /** RESULTS **/
 
 md-list-item > .md-avatar.focusedResult {

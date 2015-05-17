@@ -17,7 +17,7 @@ angular.module('githubSearchApp')
       lastPage: 1,
       isLoadingNextPage: false,
       rateLimitRemaining: -1,
-      error: '',
+      apiError: '',
       focusedResult: {}
     };
 
@@ -42,7 +42,7 @@ angular.module('githubSearchApp')
           $http.get(url)
             .success(function (data, status, headers) {
               if (status !== 200) {
-                ResultData.error = data[GITHUB_CONFIG.error_message];
+                ResultData.apiError = data[GITHUB_CONFIG.error_message];
               } else {
                 ResultData.rateLimitRemaining = headers()[GITHUB_CONFIG.rate_limit_header];
                 ResultData.repos = ResultData.repos.concat(data[GITHUB_CONFIG.response_array]);
@@ -57,8 +57,11 @@ angular.module('githubSearchApp')
               ResultData.isLoadingNextPage = false;
             })
             .error(function (data, status) {
-              if (status !== 200) {
-                ResultData.error = data[GITHUB_CONFIG.error_messages];
+              if (!data) {
+                ResultData.apiError = 'Connection Timeout: Unable to load Github API';
+              }
+              if (status === 403) {
+                ResultData.apiError = 'API limit reached';
               }
               ResultData.isLoadingNextPage = false;
             });
@@ -84,8 +87,8 @@ angular.module('githubSearchApp')
       getRateLimitRemaining: function () {
         return ResultData.rateLimitRemaining;
       },
-      getError: function () {
-        return ResultData.error;
+      getApiError: function () {
+        return ResultData.apiError;
       },
       reset: function () {
         ResultData.searchQuery = '';

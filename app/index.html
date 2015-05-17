@@ -27,7 +27,7 @@
 	  <!-- NAVBAR -->
 	  <div ng-include="'partials/navbar.html'"></div>
 
-	  <div class="container">
+	  <div ng-hide="hasApiError" class="container">
 		  <div ng-show="!isEnteringText && hasResults">
 
 		  	<!-- SUMMARY -->
@@ -42,6 +42,10 @@
 				<md-progress-circular md-mode="indeterminate" flex></md-progress-circular>
 			</div>
 		  </div>
+	  </div>
+	  <div ng-show="hasApiError.length > 0" class="container">
+	  	<h3 style="color:darkred;">{{hasApiError}}</h3>
+	  	<h4 style="color:darkred;">Refreshing page in {{refreshTimeRemaining}} seconds</h4>
 	  </div>
 
 	<!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->

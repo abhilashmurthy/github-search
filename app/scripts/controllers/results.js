@@ -33,25 +33,6 @@ angular.module('githubSearchApp')
 			});
 
 		$scope.$watch(function () {
-				return ResultData.getTotalRepoCount();
-			}, function (newVal) {
-				if (typeof newVal === 'undefined') {
-					return;
-				}
-				if (newVal === 0) {
-					$mdToast.show(
-						$mdToast.simple()
-						.content('No results found...')
-						.position('top right')
-						.hideDelay(3000)
-					);
-					$scope.github.reset();
-					return;
-				}
-				$scope.hasResults = true;
-			});
-
-		$scope.$watch(function () {
 				return ResultData.getRateLimitRemaining();
 			}, function (newVal) {
 				if (typeof newVal === 'undefined') {
