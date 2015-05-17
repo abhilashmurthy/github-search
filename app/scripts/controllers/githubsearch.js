@@ -3,15 +3,20 @@
 angular
     .module('githubSearchApp')
     .controller('GithubSearchCtrl', function ($scope, GITHUB_CONFIG, SearchData, ResultData, $interval) {
+        $scope.isWelcomeScreen = true;
         $scope.isEnteringText = false;
         $scope.hasResults = false;
         $scope.isLoadingNextPage = false;
         $scope.hasApiError = false;
 
+        $scope.disableWelcomeScreen = function() {
+            $scope.isWelcomeScreen = false;
+        };
+
         $scope.$watch(function () {
                 return SearchData.isEnteringText();
             }, function (newVal) {
-                if (typeof newVal === 'undefined') {
+                if (typeof newVal === 'undefined' || !newVal.length) {
                     return;
                 }
                 $scope.isEnteringText = newVal;

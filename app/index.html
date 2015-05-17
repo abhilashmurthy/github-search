@@ -25,11 +25,14 @@
 	  <!-- Add your site or application content here -->
 
 	  <!-- NAVBAR -->
-	  <div ng-include="'partials/navbar.html'"></div>
+	  <div ng-click="disableWelcomeScreen()" ng-include="'partials/navbar.html'"></div>
 
 	  <div ng-hide="hasApiError" class="container">
-		  <div ng-show="!isEnteringText && hasResults">
+	  	  <div ng-show="isWelcomeScreen">
+	  	  	<p class="welcomeText">Welcome! Search a for repo in the navigation bar</p>
+	  	  </div>
 
+		  <div ng-show="!isEnteringText && hasResults">
 		  	<!-- SUMMARY -->
 		  	<div ng-include="'partials/summary.html'"></div>
 

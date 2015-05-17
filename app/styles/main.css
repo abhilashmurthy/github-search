@@ -23,6 +23,12 @@ body {
 	top: 3rem;
 }
 
+.welcomeText {
+	font-size: 2rem;
+	color: #bbb;
+	margin-top: 4rem;
+}
+
 /** NAVBAR **/
 
 md-toolbar {
