@@ -12,6 +12,7 @@ angular.module('githubSearchApp')
         return {
             searchRepos: function(query, page) {
                 var deferred = $q.defer();
+                console.log('GET: ' + GITHUB_CONFIG.endpoint + '?q=' + query + '&page=' + page);
                 $http.get(GITHUB_CONFIG.endpoint + '?q=' + query + '&page=' + page)
                     .success(function(response, status, getResponseHeaders) {
                         var toReturn = {

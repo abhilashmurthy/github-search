@@ -16,7 +16,7 @@ angular
         /* RESULTS */
         $scope.results = [];
         var currentPaginationPage = 1;
-        var maxPaginationPage = 1000;
+        var maxPaginationPage = 0;
         $scope.isLoadingNextPage = false;
         $scope.nextResultsPage = function () {
             if ($scope.isLoadingNextPage || !$scope.hasResults) {
@@ -30,16 +30,8 @@ angular
             }
         };
 
-        function loadAll() {
-            var allStates = 'Alabama, Alaska, Arizona, Arkansas, California, Colorado, Connecticut, Delaware';
-            return allStates.split(/, +/g).map(function(state) {
-                return {
-                    value: state.toLowerCase(),
-                    display: state
-                };
-            });
-        }
-        $scope.states = loadAll();
+        /* AUTOCOMPLETE */
+        $scope.states = [];
 
         /**
          * Search for past keywords for query
@@ -98,6 +90,8 @@ angular
                 }
             }
             $scope.results = [];
+            $scope.hasResults = false;
+            maxPaginationPage = 0;
             $scope.isEnteringText = true;
         };
 
@@ -121,9 +115,12 @@ angular
         });
 
         function searchGithub() {
-            console.log('Searching: ' + $scope.searchText + ' in:' + $scope.searchCategories);
             RepoManager.searchRepos($scope.searchText + ' in:' + $scope.searchCategories, currentPaginationPage)
                 .then(function(response) {
+                    $scope.states.push({
+                        value: $scope.searchText,
+                        display: $scope.searchText
+                    });
                     $scope.results = $scope.results.concat(response.repos);
                     $scope.hasResults = response.repos && response.repos.length;
                     $scope.resultsTotalCount = response.total_count;
@@ -136,6 +133,12 @@ angular
                         );
                         return false;
                     }
+
+                    if (!maxPaginationPage) {
+                        maxPaginationPage = Math.ceil(response.total_count / response.repos.length);
+                        console.log(maxPaginationPage);
+                    }
+
                     $scope.rate_limit = parseInt(response.rate_limit_remaining);
                     if ($scope.rate_limit < 5) {
                         $mdToast.show(
