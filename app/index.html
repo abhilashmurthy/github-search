@@ -20,46 +20,29 @@
 	<!--[if lt IE 7]>
 	  <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 	<![endif]-->
-	<div ng-controller="GithubSearchCtrl as githubCtrl">
+	<div ng-controller="GithubSearchCtrl">
 
 	  <!-- Add your site or application content here -->
 
 	  <!-- NAVBAR -->
 	  <div ng-include="'partials/navbar.html'"></div>
 
-		<!-- BODY -->
-		<div class="container">
-			<div class="progressCircularDiv" layout-align="row" layout-sm="column" layout-align="space-around"
-				ng-show="githubCtrl.isEnteringText">
-				<md-progress-circular md-mode="indeterminate" flex></md-progress-circular>
-			</div>
-			<div style="margin-left: 8px;"
-				ng-show="!githubCtrl.isEnteringText && githubCtrl.hasResults">Found {{resultsTotalCount }} results for {{searchText}} in {{searchCategories}}</div>
-			<div class="results" 
-				infinite-scroll="githubCtrl.nextResultsPage()" 
-				infinite-scroll-disabled="githubCtrl.isLoadingNextPage"
-				infinite-scroll-distance="0">
-				<md-card class="resultCard" ng-repeat="result in githubCtrl.results">
-					<md-card-content>
-						<h2 class="md-title"
-						ng-model="result"
-						ng-click="githubCtrl.showResult(result)">
-							{{result.full_name}}
-						</h2>
-						<p class="animate-hide" ng-hide="!result.show">Language: {{result.language}}</p>
-						<p class="animate-hide" ng-hide="!result.show">Followers: {{result.followers}}</p>
-						<p class="animate-hide" ng-hide="!result.show">URL: {{result.git_url}}</p>
-						<p class="animate-hide" ng-hide="!result.show">Description: {{result.description}}</p>
-					</md-card-content>
-				</md-card>
-			</div>
-			<div class="progressCircularDiv" layout-align="row" layout-sm="column" layout-align="space-around"
-				ng-show="githubCtrl.isLoadingNextPage">
-				<md-progress-circular md-mode="indeterminate" flex></md-progress-circular>
-			</div>
-		</div>
+	  <div class="container">
+		  <div ng-show="!isEnteringText && hasResults">
 
-	</div>
+		  	<!-- SUMMARY -->
+		  	<div ng-include="'partials/summary.html'"></div>
+
+		  	<!-- RESULTS -->
+		  	<div ng-include="'partials/results.html'"></div>
+		  </div>
+
+		  <div ng-show="isEnteringText || isLoadingNextPage">
+			<div class="progressCircularDiv" layout-align="row" layout-sm="column" layout-align="space-around">
+				<md-progress-circular md-mode="indeterminate" flex></md-progress-circular>
+			</div>
+		  </div>
+	  </div>
 
 	<!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
 	 <script>
@@ -96,6 +79,10 @@
 <script src="scripts/services/githubconfig.js"></script>
 <script src="scripts/services/repomanager.js"></script>
 <script src="scripts/services/appconfig.js"></script>
+<script src="scripts/services/searchdata.js"></script>
+<script src="scripts/controllers/summary.js"></script>
+<script src="scripts/controllers/results.js"></script>
+<script src="scripts/services/resultdata.js"></script>
 		<!-- endbuild -->
 </body>
 </html>

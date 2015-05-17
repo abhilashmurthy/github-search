@@ -8,23 +8,19 @@
  * Controller of the githubSearchApp
  */
 angular.module('githubSearchApp')
-  .controller('NavbarCtrl', function ($scope, APP_CONFIG, $timeout, $mdToast) {
+  .controller('NavbarCtrl', function ($scope, SearchData, APP_CONFIG, $timeout, $mdToast) {
         $scope.searchText = null;
         $scope.searchCategories = [];
     	$scope.isEnteringText = false;
-
         $scope.categories = APP_CONFIG.categories;
-        $scope.true_name = true;
-        $scope.true_description = true;
-        $scope.true_readme = true;
+        $scope.defaultDebounce = APP_CONFIG.debounce;
 
-        $scope.$watch('searchText', function () {
-            $scope.isEnteringText = false;
+        $scope.$watch('searchText', function (newValue) {
             if (validateSearchText() && validateSearchCategories()) {
-            	console.log('Searching: ' + $scope.searchText);
-            	console.log('Categories: ' + JSON.stringify($scope.searchCategories));
-                // searchGithub();
+                console.log('Setting search data: ' + newValue + $scope.searchCategories);
+            	SearchData.setSearchData(newValue, $scope.searchCategories);
             }
+            SearchData.setEnteringText(false);
         });
 
         $scope.$watch('searchCategories', function (newValue, oldValue) {
@@ -33,21 +29,20 @@ angular.module('githubSearchApp')
         		return;
         	}
             if (validateSearchText() && validateSearchCategories()) {
-            	console.log('Searching: ' + $scope.searchText);
-            	console.log('Categories: ' + JSON.stringify($scope.searchCategories));
-                // searchGithub();
+                SearchData.setSearchData($scope.searchText, newValue);
             }
+            SearchData.setEnteringText(false);
         });
 
         $scope.changeEnteringText = function (event) {
             if (event) {
                 var keyCode = event.which || event.keyCode;
                 if (keyCode === 0 || event.ctrlKey || event.metaKey || event.altKey) {
-                    $scope.isEnteringText = false;
+                    SearchData.setEnteringText(false);
                     return false;
                 }
             }
-            $scope.isEnteringText = true;
+            SearchData.setEnteringText(true);
         };
 
         function validateSearchText() {
@@ -58,6 +53,7 @@ angular.module('githubSearchApp')
                 $mdToast.show(
                     $mdToast.simple()
                     .content('Please enter a keyword with at least 3 chars!')
+                    .action('OK')
                     .position('top right')
                     .hideDelay(3000)
                 );
@@ -71,6 +67,7 @@ angular.module('githubSearchApp')
                 $mdToast.show(
                     $mdToast.simple()
                     .content('Please select at least one search category!')
+                    .action('OK')
                     .position('top right')
                     .hideDelay(3000)
                 );
