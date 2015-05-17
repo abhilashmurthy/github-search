@@ -25,7 +25,7 @@
 	  <!-- Add your site or application content here -->
 
 	  <!-- NAVBAR -->
-		<md-toolbar class="md-default-theme">
+		<md-toolbar md-scroll-shrink class="md-default-theme">
 			<div class="md-toolbar-tools" layout="row" layout-align="right right">
 				<span id="searchInput" flex>
 					<md-autocomplete
@@ -60,9 +60,12 @@
 				ng-show="isEnteringText">
 				<md-progress-circular md-mode="indeterminate" flex></md-progress-circular>
 			</div>
-			<div class="results"
-				ng-show="!isEnteringText && hasResults">
-				<div style="margin-left: 8px;">Found {{resultsTotalCount }} results for {{searchText}} in {{searchCategories}}</div>
+			<div style="margin-left: 8px;"
+				ng-show="!isEnteringText && hasResults">Found {{resultsTotalCount }} results for {{searchText}} in {{searchCategories}}</div>
+			<div class="results" 
+				infinite-scroll="nextResultsPage()" 
+				infinite-scroll-disabled="isLoadingNextPage"
+				infinite-scroll-distance="0">
 				<md-card class="resultCard" ng-repeat="result in results">
 					<md-card-content>
 						<h2 class="md-title"
@@ -76,6 +79,10 @@
 						<p class="animate-hide" ng-hide="!result.show">Description: {{result.description}}</p>
 					</md-card-content>
 				</md-card>
+			</div>
+			<div class="progressCircularDiv" layout-align="row" layout-sm="column" layout-align="space-around"
+				ng-show="isLoadingNextPage">
+				<md-progress-circular md-mode="indeterminate" flex></md-progress-circular>
 			</div>
 		</div>
 
@@ -106,6 +113,8 @@
 	<script src="bower_components/angular-material/angular-material.js"></script>
 	<!-- endbower -->
 	<!-- endbuild -->
+
+	<script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.min.js"></script>
 
 		<!-- build:js({.tmp,app}) scripts/scripts.js -->
 		<script src="scripts/app.js"></script>

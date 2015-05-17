@@ -1,7 +1,7 @@
 'use strict';
 
 angular
-    .module('githubSearchApp', ['ngMaterial'])
+    .module('githubSearchApp', ['ngMaterial', 'infinite-scroll'])
     .controller('GithubSearchCtrl', function($scope, GITHUB_CONFIG, RepoManager, $timeout, $mdToast) {
         /* SEARCH */
         $scope.selectedItem = null;
@@ -16,7 +16,19 @@ angular
         /* RESULTS */
         $scope.results = [];
         var currentPaginationPage = 1;
-
+        var maxPaginationPage = 1000;
+        $scope.isLoadingNextPage = false;
+        $scope.nextResultsPage = function () {
+            if ($scope.isLoadingNextPage || !$scope.hasResults) {
+                return;
+            }
+            if (currentPaginationPage < maxPaginationPage) {
+                $scope.isLoadingNextPage = true;
+                currentPaginationPage++;
+                searchGithub();
+                $scope.isLoadingNextPage = false;
+            }
+        };
 
         function loadAll() {
             var allStates = 'Alabama, Alaska, Arizona, Arkansas, California, Colorado, Connecticut, Delaware';
@@ -39,23 +51,6 @@ angular
             return results;
         };
 
-        /* TOAST */
-
-        $scope.toastPosition = {
-            bottom: true,
-            top: false,
-            left: false,
-            right: true
-        };
-
-        $scope.getToastPosition = function() {
-            return Object.keys($scope.toastPosition)
-                .filter(function(pos) {
-                    return $scope.toastPosition[pos];
-                })
-                .join(' ');
-        };
-
         /** SEARCH **/
         function validateSearchText() {
             if (!$scope.searchText || $scope.searchText.length === 0) {
@@ -65,7 +60,7 @@ angular
                 $mdToast.show(
                     $mdToast.simple()
                     .content('Please enter a keyword with at least 3 chars!')
-                    .position($scope.getToastPosition())
+                    .position('top right')
                     .hideDelay(3000)
                 );
                 return false;
@@ -79,7 +74,7 @@ angular
                 $mdToast.show(
                     $mdToast.simple()
                     .content('Please select at least one search category!')
-                    .position($scope.getToastPosition())
+                    .position('top right')
                     .hideDelay(3000)
                 );
                 return false;
@@ -129,25 +124,24 @@ angular
             console.log('Searching: ' + $scope.searchText + ' in:' + $scope.searchCategories);
             RepoManager.searchRepos($scope.searchText + ' in:' + $scope.searchCategories, currentPaginationPage)
                 .then(function(response) {
-                    $scope.results.push(response.repos);
-                    $scope.results = response.repos;
+                    $scope.results = $scope.results.concat(response.repos);
                     $scope.hasResults = response.repos && response.repos.length;
-                    $scope.rate_limit = parseInt(response.rate_limit_remaining);
                     $scope.resultsTotalCount = response.total_count;
                     if (!$scope.hasResults) {
                         $mdToast.show(
                             $mdToast.simple()
                             .content('No results found...')
-                            .position($scope.getToastPosition())
+                            .position('top right')
                             .hideDelay(3000)
                         );
                         return false;
                     }
+                    $scope.rate_limit = parseInt(response.rate_limit_remaining);
                     if ($scope.rate_limit < 5) {
                         $mdToast.show(
                             $mdToast.simple()
                             .content('API rate limit: ' + ($scope.rate_limit + 1) + ' more times')
-                            .position($scope.getToastPosition())
+                            .position('top right')
                             .hideDelay(3000)
                         );
                     }

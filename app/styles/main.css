@@ -19,9 +19,16 @@ body {
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 2em;
+	position: relative;
+	top: 3rem;
 }
 
 /** NAVBAR **/
+
+md-toolbar {
+	position: fixed;
+	top: 0;
+}
 
 .md-toolbar-tools h2 {
   font-size: 1.2rem;
