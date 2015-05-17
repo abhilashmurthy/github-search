@@ -1,0 +1,21 @@
+<md-dialog aria-label="{{repo.full_name}}">
+  <form>
+  <md-dialog-content class="sticky-container">
+    <md-subheader class="md-sticky-no-effect">{{repo.full_name}}</md-subheader>
+    <md-content>
+      <md-list-item layout-gt-sm="row" layout="column">
+        <img ng-src="{{repo.owner.avatar_url}}" class="focusedResult md-avatar" alt="{{repo.owner.login}}" flex>
+          <div class="md-list-item-text focusedResultText">
+            <p>Language: {{repo.language}}</p>
+            <p>Followers: {{repo.followers}}</p>
+            <p>URL: <a href="{{repo.html_url}}">{{repo.html_url}}</a></p>
+            <p>Description: {{repo.description}}</p>
+          </div>
+        </md-list-item>
+    </md-content>
+  </md-dialog-content>
+  <div class="md-actions" layout="row">
+    <md-button ng-click="ok()" class="md-primary">OK</md-button>
+  </div>
+  </form>
+</md-dialog>

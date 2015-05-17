@@ -63,6 +63,28 @@ md-option.categoriesOption > div.md-text {
 	width: 100%;
 }
 
+/** RESULTS **/
+
+md-list-item > .md-avatar.focusedResult {
+	width: 128px;
+	height: 128px;
+}
+
+md-list-item > .focusedResultText {
+	font-size: 0.9rem;
+}
+
+div.result {
+	padding-top: 1em;
+}
+
+div.result > div.md-list-item-text h3 {
+	line-height: 1.5em;
+}
+
+md-divider.result {
+	margin-top: 1em;
+}
 /** LOADING **/
 
 .progressCircularDiv {
@@ -72,13 +94,6 @@ md-option.categoriesOption > div.md-text {
 md-progress-circular {
 	margin-left: auto;
 	margin-right: auto;
-}
-
-/** RESULTS **/
-
-md-card {
-	margin-top: 20px;
-	transition: 0.02s padding cubic-bezier(0.35, 0, 0.25, 1);
 }
 
 /** RESPONSIVE **/

@@ -1,21 +1,22 @@
 <div ng-controller="ResultsCtrl as resultsCtrl">
-	<div class="results" 
-		infinite-scroll="github.fetchResults()" 
-		infinite-scroll-disabled="github.isLoadingNextPage()"
-		infinite-scroll-distance="infiniteScrollDistance"
-		infinite-scroll-immediate-check="false">
-		<md-card class="resultCard" ng-repeat="repo in github.getRepos()">
-			<md-card-content>
-				<h2 class="md-title"
-				ng-model="repo"
-				ng-click="showResult(repo)">
-					{{repo.full_name}}
-				</h2>
-				<p class="animate-hide" ng-hide="!repo.show">Language: {{repo.language}}</p>
-				<p class="animate-hide" ng-hide="!repo.show">Followers: {{repo.followers}}</p>
-				<p class="animate-hide" ng-hide="!repo.show">URL: {{repo.git_url}}</p>
-				<p class="animate-hide" ng-hide="!repo.show">Description: {{repo.description}}</p>
-			</md-card-content>
-		</md-card>
-	</div>
+	<md-content>
+		<md-list
+				infinite-scroll="github.fetchResults()"
+				infinite-scroll-disabled="github.isLoadingNextPage()"
+				infinite-scroll-distance="infiniteScrollDistance"
+				infinite-scroll-immediate-check="false">
+				<div class="result"
+					ng-repeat="repo in github.getRepos()">
+					<md-list-item class="md-2-line md-clickable"
+						md-ink-ripple="#bbb"
+						ng-click="showDialog(repo)">
+						<img ng-src="{{repo.owner.avatar_url}}" class="md-avatar" alt="{{repo.owner.login}}">
+						<div class="md-list-item-text">
+							<h3>{{repo.full_name}}</h3>
+						</div>
+					</md-list-item>
+					<md-divider class="result"></md-divider>
+				</div>
+		</md-list>
+	</md-content>
 </div>

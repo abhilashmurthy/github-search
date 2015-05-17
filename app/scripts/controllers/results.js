@@ -1,5 +1,12 @@
 'use strict';
 
+function ResultCtrl($scope, $mdDialog, ResultData) {
+	$scope.repo = ResultData.getFocusedResult();
+	$scope.ok = function () {
+		$mdDialog.cancel();
+	};
+}
+
 /**
  * @ngdoc function
  * @name githubSearchApp.controller:ResultsCtrl
@@ -8,7 +15,7 @@
  * Controller of the githubSearchApp
  */
 angular.module('githubSearchApp')
-	.controller('ResultsCtrl', function ($scope, SearchData, ResultData, APP_CONFIG, $mdToast) {
+	.controller('ResultsCtrl', function ($scope, SearchData, ResultData, APP_CONFIG, $mdToast, $mdDialog) {
 		$scope.github = ResultData;
 		$scope.hasResults = false;
 		$scope.searchQuery = '';
@@ -20,7 +27,6 @@ angular.module('githubSearchApp')
 				if (!newVal || newVal.length === 0 || newVal === oldVal) {
 					return;
 				}
-				$scope.github.setMinLastPage();
 				$scope.searchQuery = newVal;
 				$scope.github.reset();
 				$scope.github.setSearchQuery(newVal);
@@ -64,13 +70,12 @@ angular.module('githubSearchApp')
 				}
 			});
 
-		$scope.showResult = function (result) {
-			if (!result.show) {
-				result.show = true;
-			} else {
-				result.show = !result.show;
-			}
-			return false;
+		$scope.showDialog = function (repo) {
+			ResultData.setFocusedResult(repo);
+			$mdDialog.show({
+				controller: ResultCtrl,
+				templateUrl: 'partials/result.html'
+			});
 		};
 
 	});

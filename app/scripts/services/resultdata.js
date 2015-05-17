@@ -17,7 +17,8 @@ angular.module('githubSearchApp')
       lastPage: 1,
       isLoadingNextPage: false,
       rateLimitRemaining: -1,
-      error: ''
+      error: '',
+      focusedResult: {}
     };
 
     var isAbleToFetch = function () {
@@ -95,9 +96,13 @@ angular.module('githubSearchApp')
         ResultData.isLoadingNextPage = false;
         ResultData.rateLimitRemaining = -1;
         ResultData.error = '';
+        ResultData.focusedResult = {};
       },
-      setMinLastPage: function() {
-        ResultData.lastPage = 1;
+      setFocusedResult: function (result) {
+        ResultData.focusedResult = result;
+      },
+      getFocusedResult: function () {
+        return ResultData.focusedResult;
       }
     };
   });
