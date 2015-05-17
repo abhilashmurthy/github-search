@@ -8,26 +8,48 @@
  * Controller of the githubSearchApp
  */
 angular.module('githubSearchApp')
-  .controller('NavbarCtrl', function ($scope, GITHUB_CONFIG, $timeout, $mdToast) {
+  .controller('NavbarCtrl', function ($scope, APP_CONFIG, $timeout, $mdToast) {
         $scope.searchText = null;
-        $scope.categories = GITHUB_CONFIG.in_categories;
-        $scope.searchCategories = $scope.selectedCategories; //On init
+        $scope.searchCategories = [];
+    	$scope.isEnteringText = false;
+
+        $scope.categories = APP_CONFIG.categories;
+        $scope.true_name = true;
+        $scope.true_description = true;
+        $scope.true_readme = true;
 
         $scope.$watch('searchText', function () {
             $scope.isEnteringText = false;
             if (validateSearchText() && validateSearchCategories()) {
+            	console.log('Searching: ' + $scope.searchText);
+            	console.log('Categories: ' + JSON.stringify($scope.searchCategories));
                 // searchGithub();
             }
         });
 
-        $scope.$watch('selectedCategories', function (newValue) {
-        	console.log(newValue);
+        $scope.$watch('searchCategories', function (newValue, oldValue) {
+        	if (oldValue && newValue.indexOf('none') >= 0) {
+        		$scope.searchCategories = oldValue || [];
+        		return;
+        	}
             if (validateSearchText() && validateSearchCategories()) {
+            	console.log('Searching: ' + $scope.searchText);
+            	console.log('Categories: ' + JSON.stringify($scope.searchCategories));
                 // searchGithub();
             }
         });
 
-        /** SEARCH **/
+        $scope.changeEnteringText = function (event) {
+            if (event) {
+                var keyCode = event.which || event.keyCode;
+                if (keyCode === 0 || event.ctrlKey || event.metaKey || event.altKey) {
+                    $scope.isEnteringText = false;
+                    return false;
+                }
+            }
+            $scope.isEnteringText = true;
+        };
+
         function validateSearchText() {
             if (!$scope.searchText || $scope.searchText.length === 0) {
                 return false;
@@ -44,7 +66,6 @@ angular.module('githubSearchApp')
             return true;
         }
 
-        
         function validateSearchCategories() {
             if (!$scope.searchCategories || $scope.searchCategories.length === 0) {
                 $mdToast.show(
@@ -57,19 +78,5 @@ angular.module('githubSearchApp')
             }
             return true;
         }
-
-        $scope.changeEnteringText = function (event) {
-            if (event) {
-                var keyCode = event.which || event.keyCode;
-                if (keyCode === 0 || event.ctrlKey || event.metaKey || event.altKey) {
-                    $scope.isEnteringText = false;
-                    return false;
-                }
-            }
-            $scope.results = [];
-            $scope.hasResults = false;
-            // maxPaginationPage = 0;
-            $scope.isEnteringText = true;
-        };
 
   });

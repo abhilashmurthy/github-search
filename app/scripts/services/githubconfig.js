@@ -12,16 +12,6 @@
         .constant('GITHUB_CONFIG', {
             'name': 'Github Search Repositories v3',
             'endpoint': 'https://api.github.com/search/repositories',
-            'in_categories': [{
-                'name': 'name',
-                'selected': true
-            }, {
-                'name': 'description',
-                'selected': true
-            }, {
-                'name': 'readme',
-                'selected': true
-            }],
             'rate_limit_header': 'x-ratelimit-remaining',
             'response_array': 'items',
             'total_count': 'total_count'
