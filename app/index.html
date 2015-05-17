@@ -20,57 +20,30 @@
 	<!--[if lt IE 7]>
 	  <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 	<![endif]-->
-	<div ng-controller="GithubSearchCtrl">
+	<div ng-controller="GithubSearchCtrl as githubCtrl">
 
 	  <!-- Add your site or application content here -->
 
 	  <!-- NAVBAR -->
-		<md-toolbar md-scroll-shrink class="md-default-theme">
-			<div class="md-toolbar-tools" layout="row" layout-align="right right">
-				<span id="searchInput" flex>
-					<md-autocomplete
-					md-no-cache="noCache"
-					md-search-text="searchText"
-					md-items="item in filterAutocomplete(searchText)"
-					md-item-text="item ? item.display : ''"
-					md-floating-label="Search for a Github Repo"
-					ng-model-options="{debounce: 500}"
-					ng-keyup="changeEnteringText($event)">
-						<span md-highlight-text="searchText">{{item.display}}</span>
-					</md-autocomplete>
-				</span>
-				<span style="text-align:center;" flex="5">
-					in
-				</span>
-				<md-select multiple=true flex="10"
-					ng-model="selectedCategories">
-					<md-option
-						ng-selected=true 
-						ng-value="category.name" 
-						ng-repeat="category in categories">
-						{{category.name}}
-					</md-option>
-				</md-select>
-			</div>
-		</md-toolbar>
+	  <div ng-include="'partials/navbar.html'"></div>
 
 		<!-- BODY -->
 		<div class="container">
 			<div class="progressCircularDiv" layout-align="row" layout-sm="column" layout-align="space-around"
-				ng-show="isEnteringText">
+				ng-show="githubCtrl.isEnteringText">
 				<md-progress-circular md-mode="indeterminate" flex></md-progress-circular>
 			</div>
 			<div style="margin-left: 8px;"
-				ng-show="!isEnteringText && hasResults">Found {{resultsTotalCount }} results for {{searchText}} in {{searchCategories}}</div>
+				ng-show="!githubCtrl.isEnteringText && githubCtrl.hasResults">Found {{resultsTotalCount }} results for {{searchText}} in {{searchCategories}}</div>
 			<div class="results" 
-				infinite-scroll="nextResultsPage()" 
-				infinite-scroll-disabled="isLoadingNextPage"
+				infinite-scroll="githubCtrl.nextResultsPage()" 
+				infinite-scroll-disabled="githubCtrl.isLoadingNextPage"
 				infinite-scroll-distance="0">
-				<md-card class="resultCard" ng-repeat="result in results">
+				<md-card class="resultCard" ng-repeat="result in githubCtrl.results">
 					<md-card-content>
 						<h2 class="md-title"
 						ng-model="result"
-						ng-click="showResult(result)">
+						ng-click="githubCtrl.showResult(result)">
 							{{result.full_name}}
 						</h2>
 						<p class="animate-hide" ng-hide="!result.show">Language: {{result.language}}</p>
@@ -81,7 +54,7 @@
 				</md-card>
 			</div>
 			<div class="progressCircularDiv" layout-align="row" layout-sm="column" layout-align="space-around"
-				ng-show="isLoadingNextPage">
+				ng-show="githubCtrl.isLoadingNextPage">
 				<md-progress-circular md-mode="indeterminate" flex></md-progress-circular>
 			</div>
 		</div>
@@ -119,6 +92,7 @@
 		<!-- build:js({.tmp,app}) scripts/scripts.js -->
 		<script src="scripts/app.js"></script>
 		<script src="scripts/controllers/githubsearch.js"></script>
+		<script src="scripts/controllers/navbar.js"></script>
 <script src="scripts/services/githubconfig.js"></script>
 <script src="scripts/services/repomanager.js"></script>
 <script src="scripts/directives/ngenter.js"></script>

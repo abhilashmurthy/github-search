@@ -1,0 +1,35 @@
+<div ng-controller="NavbarCtrl as navCtrl">
+	<md-toolbar md-scroll-shrink class="md-default-theme">
+		<div class="md-toolbar-tools">
+			<span id="searchInput" flex>
+				<md-input-container>
+					<label>Search for a Github Repo</label>
+					<input ng-model="searchText" ng-model-options="{debounce: 500}" ng-keyup="changeEnteringText($event)">
+				</md-input-container>
+			</span>
+			<md-select class="categoriesSelect" multiple=true flex="10" arial-label="Categories"
+				ng-model="selectedCategories"
+				ng-model-options="{debounce: 500}"
+				layout="column" layout-align="space-between">
+				<md-select-label>
+					<md-icon md-svg-icon="images/icons/menu.svg"></md-icon>
+				</md-select-label>
+				<md-option>
+					<md-subheader>Search within repo</md-subheader>
+				</md-option>
+				<md-option
+					ng-repeat="category in categories"
+					ng-value="category.name"
+					ng-selected="category.selected"
+					class="categoriesOption">
+					<md-list-item>
+						<p>{{category.name}}</p>
+						<md-checkbox class="md-secondary" 
+							ng-model-options="{debounce: 500}"
+							ng-model="category.selected"></md-checkbox>
+					</md-list-item>
+				</md-option>
+			</md-select>
+		</div>
+	</md-toolbar>
+</div>

@@ -16,7 +16,9 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'ngMaterial',
+    'infinite-scroll'
   ])
   .config(function () {
 
