@@ -12,6 +12,7 @@ html {
 
 body {
   padding: 0;
+  transform: none !important; /* Override angular's transform on broken sticky navbar */
 }
 
 .container {
@@ -31,7 +32,8 @@ body {
 
 /** NAVBAR **/
 
-md-toolbar {
+md-toolbar.navbar {
+	position: fixed;
 	top: 0;
 }
 
@@ -69,10 +71,6 @@ md-option.categoriesOption > div.md-text {
 }
 
 /** SUMMARY **/
-div.summary {
-	margin-top: 3em;
-}
-
 .summaryHighlight {
 	color: rgb(63,81,181);
 }
