@@ -15,6 +15,13 @@ angular.module('githubSearchApp')
         $scope.categories = APP_CONFIG.categories;
         $scope.defaultDebounce = APP_CONFIG.debounce;
 
+        $scope.$on(APP_CONFIG.resetNav, function () { //receive $broadcast from parent
+            $scope.searchText = null;
+            $scope.searchCategories = $scope.categories.map(function (category) {
+                return category.name;
+            });
+        });
+
         $scope.$watch('searchText', function (newValue) {
             if (validateSearchText() && validateSearchCategories()) {
                 console.log('Setting search data: ' + newValue + $scope.searchCategories);

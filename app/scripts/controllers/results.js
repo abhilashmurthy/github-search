@@ -17,9 +17,15 @@ function ResultCtrl($scope, $mdDialog, ResultData) {
 angular.module('githubSearchApp')
 	.controller('ResultsCtrl', function ($scope, SearchData, ResultData, APP_CONFIG, $mdToast, $mdDialog) {
 		$scope.github = ResultData;
-		$scope.hasResults = false;
-		$scope.searchQuery = '';
 		$scope.infiniteScrollDistance = APP_CONFIG.infiniteScrollDistance;
+
+		var resetResults = function () {
+			$scope.github.reset();
+		};
+
+		$scope.$on(APP_CONFIG.resetResults, function () {
+			resetResults();
+		});
 
 		$scope.$watch(function() {
 				return SearchData.getSearchQuery();
@@ -27,8 +33,7 @@ angular.module('githubSearchApp')
 				if (!newVal || newVal.length === 0 || newVal === oldVal) {
 					return;
 				}
-				$scope.searchQuery = newVal;
-				$scope.github.reset();
+				resetResults();
 				$scope.github.setSearchQuery(newVal);
 			});
 

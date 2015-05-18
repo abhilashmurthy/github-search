@@ -2,15 +2,22 @@
 
 angular
     .module('githubSearchApp')
-    .controller('GithubSearchCtrl', function ($scope, GITHUB_CONFIG, SearchData, ResultData, $interval) {
+    .controller('GithubSearchCtrl', function ($scope, GITHUB_CONFIG, APP_CONFIG, SearchData, ResultData, $interval) {
         $scope.isWelcomeScreen = true;
         $scope.isEnteringText = false;
         $scope.hasResults = false;
         $scope.isLoadingNextPage = false;
         $scope.hasApiError = false;
 
-        $scope.disableWelcomeScreen = function() {
-            $scope.isWelcomeScreen = false;
+        $scope.toggleHomeScreen = function(e) {
+            if (e) {
+                e.stopPropagation();
+                $scope.isWelcomeScreen = true;
+                $scope.$broadcast(APP_CONFIG.resetNav); //Reset NavCtrl
+                $scope.$broadcast(APP_CONFIG.resetResults); // Reset ResultCtrl
+            } else {
+                $scope.isWelcomeScreen = false;
+            }
         };
 
         $scope.$watch(function () {

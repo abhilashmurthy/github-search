@@ -1,17 +1,20 @@
 <div ng-controller="NavbarCtrl as navCtrl">
 	<md-toolbar md-scroll-shrink class="navbar md-default-theme">
-		<div class="md-toolbar-tools">
+		<div class="md-toolbar-tools" layout="row">
+			<span id="logo" class="md-clickable" ng-click="toggleHomeScreen($event)" flex="15">
+				<i class="fa fa-git"></i> <i class="fa fa-search"></i>
+			</span>
 			<span id="searchInput" flex>
 				<md-input-container>
 					<label>Search for a Github Repo</label>
 					<input ng-model="searchText" ng-model-options="{debounce: defaultDebounce}" ng-keyup="changeEnteringText($event)">
 				</md-input-container>
 			</span>
-			<md-select class="categoriesSelect" aria-label="Categories" multiple=true flex="10"
+			<md-select class="categoriesSelect" aria-label="Categories" multiple=true flex="5"
 				ng-model="searchCategories"
 				layout="column" layout-align="space-between">
 				<md-select-label>
-					<md-icon md-svg-icon="images/icons/menu.svg"></md-icon>
+					<i class="fa fa-bars"></i>
 				</md-select-label>
 				<md-option value="none">
 					<md-subheader>Search within repo</md-subheader>

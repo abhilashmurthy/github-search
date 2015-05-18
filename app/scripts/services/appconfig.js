@@ -30,6 +30,8 @@ angular.module('githubSearchApp')
   			'units': 'buckets',
   			'bucketValues': ['< 50', '50 - 100', '> 100']
   		}],
+    'resetNav': 'resetNavCtrl',
+    'resetResults': 'resetResultsCtrl',
 		'categories': [{
 			'name': 'name',
 			'selected': true,
