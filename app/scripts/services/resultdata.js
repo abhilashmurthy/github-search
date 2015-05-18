@@ -8,7 +8,7 @@
  * Factory in the githubSearchApp.
  */
 angular.module('githubSearchApp')
-  .factory('ResultData', function ($http, GITHUB_CONFIG) {
+  .factory('ResultData', function ($http, GITHUB_CONFIG, APP_CONFIG, _) {
     var ResultData = {
       searchQuery: '',
       repos: [],
@@ -20,6 +20,7 @@ angular.module('githubSearchApp')
       apiError: '',
       focusedResult: {},
       sortKey: '',
+      sortType: '',
       sortBucketValues: []
     };
 
@@ -34,6 +35,28 @@ angular.module('githubSearchApp')
           return false;
         }
         return true;
+    };
+
+    var sortBy = function (selectedOption) {
+        ResultData.sortType = ''; //Reset
+        ResultData.sortBucketValues = [];
+        if (selectedOption.units === 'buckets') {
+          if (selectedOption.bucketValues) { //Declared buckets in APP_CONFIG
+
+            ResultData.sortBucketValues = selectedOption.bucketValues;
+
+          } else { //Undeclared buckets, extract programatically
+
+            ResultData.sortBucketValues = _.uniq(ResultData.repos, function (repo) {
+              return repo[selectedOption.value];
+            }).map(function (repo) {
+              return repo[selectedOption.value];
+            });
+
+          }
+          ResultData.sortType = selectedOption.type;
+        }
+        ResultData.sortKey = selectedOption.value;
     };
 
     var fetchResults = function fetchResults () {
@@ -56,6 +79,7 @@ angular.module('githubSearchApp')
                   ResultData.currentPage++;
                 }
               }
+
               ResultData.isLoadingNextPage = false;
             })
             .error(function (data, status) {
@@ -103,6 +127,7 @@ angular.module('githubSearchApp')
         ResultData.error = '';
         ResultData.focusedResult = {};
         ResultData.sortKey = '';
+        ResultData.sortType = '';
         ResultData.sortBucketValues = [];
       },
       setFocusedResult: function (result) {
@@ -111,16 +136,12 @@ angular.module('githubSearchApp')
       getFocusedResult: function () {
         return ResultData.focusedResult;
       },
-      sortBy: function (selectedOption) {
-        if (selectedOption.units === 'buckets') {
-          if (selectedOption.bucketValues) {
-            ResultData.sortBucketValues = selectedOption.bucketValues;
-          }
-        }
-        ResultData.sortKey = selectedOption.value;
-      },
+      sortBy: sortBy,
       getSortKey: function () {
         return ResultData.sortKey;
+      },
+      getSortType: function () {
+        return ResultData.sortType;
       },
       getSortBucketValues: function () {
         return ResultData.sortBucketValues;

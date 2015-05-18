@@ -19,6 +19,7 @@ angular.module('githubSearchApp')
 		$scope.github = ResultData;
 		$scope.infiniteScrollDistance = APP_CONFIG.infiniteScrollDistance;
 		$scope.sortKey = null;
+		$scope.sortType = null;
 		$scope.sortBucketValues = [];
 
 		var resetResults = function () {
@@ -66,15 +67,13 @@ angular.module('githubSearchApp')
 					return;
 				}
 				$scope.sortKey = newVal;
-				var bucketValues = ResultData.getSortBucketValues();
-				if (bucketValues) {
-					$scope.sortBucketValues = bucketValues;
-				}
+				$scope.sortType = ResultData.getSortType();
+				$scope.sortBucketValues = ResultData.getSortBucketValues();
 			});
 
 		$scope.bucketMatcher = function (bucketValue, matchType) {
 			return function (repo) {
-				if (matchType === 'gte') {
+				if (matchType === 'gteq') {
 					var nextBucketValue = 0;
 					for (var i = 0; i < $scope.sortBucketValues.length; i++) {
 						if ($scope.sortBucketValues[i] === bucketValue && i + 1 <= $scope.sortBucketValues.length) {
@@ -83,6 +82,8 @@ angular.module('githubSearchApp')
 						}
 					}
 					return repo[$scope.sortKey] >= bucketValue && (nextBucketValue ? repo[$scope.sortKey] <= nextBucketValue : true);
+				} else if (matchType === 'eq') {
+					return repo[$scope.sortKey] === bucketValue;
 				}
 			};
 		};

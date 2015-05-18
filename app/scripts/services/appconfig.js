@@ -23,11 +23,13 @@ angular.module('githubSearchApp')
   		},{
   			'label': 'Language',
   			'value': 'language',
-  			'units': 'buckets'
+  			'units': 'buckets',
+        'type': 'eq'
   		}, {
   			'label': 'Watchers',
   			'value': 'watchers',
   			'units': 'buckets',
+        'type': 'gteq',
   			'bucketValues': [0, 50, 100, 200]
   		}],
     'resetNav': 'resetNavCtrl',

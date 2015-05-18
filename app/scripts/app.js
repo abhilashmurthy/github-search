@@ -1,5 +1,11 @@
 'use strict';
 
+/* UNDERSCORE FACTORY */
+angular.module('underscore', [])
+  .factory('_', ['$window', function($window) {
+    return $window._; // assumes underscore has already been loaded on the page
+  }]);
+
 /**
  * @ngdoc overview
  * @name githubSearchApp
@@ -18,8 +24,6 @@ angular
     'ngSanitize',
     'ngTouch',
     'ngMaterial',
-    'infinite-scroll'
-  ])
-  .config(function () {
-
-  });
+    'infinite-scroll',
+    'underscore'
+  ]);
