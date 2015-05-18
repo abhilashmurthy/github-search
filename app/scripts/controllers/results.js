@@ -55,7 +55,7 @@ angular.module('githubSearchApp')
 			ResultData.setFocusedResult(repo);
 			$mdDialog.show({
 				controller: ResultCtrl,
-				templateUrl: 'partials/result.html'
+				templateUrl: 'views/result.html'
 			});
 		};
 

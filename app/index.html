@@ -25,7 +25,7 @@
 	  <!-- Add your site or application content here -->
 
 	  <!-- NAVBAR -->
-	  <div ng-click="disableWelcomeScreen()" ng-include="'partials/navbar.html'"></div>
+	  <div ng-click="disableWelcomeScreen()" ng-include="'views/navbar.html'"></div>
 
 	  <div ng-hide="hasApiError" class="container">
 	  	  <div ng-show="isWelcomeScreen">
@@ -34,10 +34,10 @@
 
 		  <div ng-show="!isEnteringText && hasResults">
 		  	<!-- SUMMARY -->
-		  	<div ng-include="'partials/summary.html'"></div>
+		  	<div ng-include="'views/summary.html'"></div>
 
 		  	<!-- RESULTS -->
-		  	<div ng-include="'partials/results.html'"></div>
+		  	<div ng-include="'views/results.html'"></div>
 		  </div>
 
 		  <div ng-show="isEnteringText || isLoadingNextPage">
