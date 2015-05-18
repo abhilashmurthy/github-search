@@ -54,12 +54,14 @@ angular.module('githubSearchApp')
 			});
 
 		/* SORT */
-		// $scope.$watch('selectedSortKey', function (newVal) {
-		// 	var repos = ResultData.getRepos();
-		// 	var units = sortOptions.filter(function (sortOption) {
-
-		// 	});
-
-		// });
+		$scope.$watch('selectedSortKey', function (newVal, oldVal) {
+			if (newVal === oldVal) {
+				return;
+			}
+			var selectedOption = $scope.sortOptions.filter(function (sortOption) {
+				return sortOption.value === newVal;
+			})[0];
+			ResultData.sortBy(selectedOption);
+		});
 
   });

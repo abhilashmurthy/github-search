@@ -18,6 +18,8 @@ angular.module('githubSearchApp')
 	.controller('ResultsCtrl', function ($scope, SearchData, ResultData, APP_CONFIG, $mdToast, $mdDialog) {
 		$scope.github = ResultData;
 		$scope.infiniteScrollDistance = APP_CONFIG.infiniteScrollDistance;
+		$scope.sortKey = null;
+		$scope.sortBucketValues = [];
 
 		var resetResults = function () {
 			$scope.github.reset();
@@ -56,6 +58,34 @@ angular.module('githubSearchApp')
 					}
 				}
 			});
+
+		$scope.$watch(function () {
+				return ResultData.getSortKey();
+			}, function (newVal) {
+				if (typeof newVal === 'undefined') {
+					return;
+				}
+				$scope.sortKey = newVal;
+				var bucketValues = ResultData.getSortBucketValues();
+				if (bucketValues) {
+					$scope.sortBucketValues = bucketValues;
+				}
+			});
+
+		$scope.bucketMatcher = function (bucketValue, matchType) {
+			return function (repo) {
+				if (matchType === 'gte') {
+					var nextBucketValue = 0;
+					for (var i = 0; i < $scope.sortBucketValues.length; i++) {
+						if ($scope.sortBucketValues[i] === bucketValue && i + 1 <= $scope.sortBucketValues.length) {
+							nextBucketValue = $scope.sortBucketValues[i + 1];
+							break;
+						}
+					}
+					return repo[$scope.sortKey] >= bucketValue && (nextBucketValue ? repo[$scope.sortKey] <= nextBucketValue : true);
+				}
+			};
+		};
 
 		$scope.showDialog = function (repo) {
 			ResultData.setFocusedResult(repo);

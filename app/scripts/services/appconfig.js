@@ -25,10 +25,10 @@ angular.module('githubSearchApp')
   			'value': 'language',
   			'units': 'buckets'
   		}, {
-  			'label': 'Follower Count',
-  			'value': 'followers',
+  			'label': 'Watchers',
+  			'value': 'watchers',
   			'units': 'buckets',
-  			'bucketValues': ['< 50', '50 - 100', '> 100']
+  			'bucketValues': [0, 50, 100, 200]
   		}],
     'resetNav': 'resetNavCtrl',
     'resetResults': 'resetResultsCtrl',

@@ -1,22 +1,46 @@
 <div ng-controller="ResultsCtrl as resultsCtrl">
-	<md-content>
-		<md-list
-				infinite-scroll="github.fetchResults()"
-				infinite-scroll-disabled="github.isLoadingNextPage()"
-				infinite-scroll-distance="infiniteScrollDistance"
-				infinite-scroll-immediate-check="false">
-				<div class="result"
-					ng-repeat="repo in github.getRepos()">
-					<md-list-item class="md-2-line md-clickable"
-						md-ink-ripple="#bbb"
-						ng-click="showDialog(repo)">
-						<img ng-src="{{repo.owner.avatar_url}}" class="md-avatar" alt="{{repo.owner.login}}">
-						<div class="md-list-item-text">
-							<h3>{{repo.full_name}}</h3>
-						</div>
-					</md-list-item>
-					<md-divider class="result"></md-divider>
-				</div>
-		</md-list>
-	</md-content>
+	<div ng-if="sortKey">
+		Sort by {{sortKey}} in buckets {{sortBucketValues}}
+		<section>
+			<div ng-repeat="bucketValue in sortBucketValues">
+				<md-subheader class="md-primary">{{bucketValue}}</md-subheader>
+				<md-list layout-padding>
+					<div class="result"
+						ng-repeat="repo in github.getRepos() | filter:bucketMatcher(bucketValue, 'gte')">
+						<md-list-item class="md-2-line md-clickable"
+							md-ink-ripple="#bbb"
+							ng-click="showDialog(repo)">
+							<img ng-src="{{repo.owner.avatar_url}}" class="md-avatar" alt="{{repo.owner.login}}">
+							<div class="md-list-item-text">
+								<h3>{{repo.full_name}}</h3>
+							</div>
+						</md-list-item>
+						<md-divider class="result"></md-divider>
+					</div>
+				</md-list>
+			</div>
+		</section>
+	</div>
+	<div ng-if="!sortKey">
+		<md-content>
+			<md-list
+					infinite-scroll="github.fetchResults()"
+					infinite-scroll-disabled="github.isLoadingNextPage()"
+					infinite-scroll-distance="infiniteScrollDistance"
+					infinite-scroll-immediate-check="false">
+					<div class="result"
+						ng-repeat="repo in github.getRepos()">
+						<md-list-item class="md-2-line md-clickable"
+							md-ink-ripple="#bbb"
+							ng-click="showDialog(repo)">
+							<img ng-src="{{repo.owner.avatar_url}}" class="md-avatar" alt="{{repo.owner.login}}">
+							<div class="md-list-item-text">
+								<h3>{{repo.full_name}}</h3>
+							</div>
+						</md-list-item>
+						<md-divider class="result"></md-divider>
+					</div>
+			</md-list>
+		</md-content>
+	</div>
 </div>

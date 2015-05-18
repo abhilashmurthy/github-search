@@ -18,7 +18,9 @@ angular.module('githubSearchApp')
       isLoadingNextPage: false,
       rateLimitRemaining: -1,
       apiError: '',
-      focusedResult: {}
+      focusedResult: {},
+      sortKey: '',
+      sortBucketValues: []
     };
 
     var isAbleToFetch = function () {
@@ -100,12 +102,28 @@ angular.module('githubSearchApp')
         ResultData.rateLimitRemaining = -1;
         ResultData.error = '';
         ResultData.focusedResult = {};
+        ResultData.sortKey = '';
+        ResultData.sortBucketValues = [];
       },
       setFocusedResult: function (result) {
         ResultData.focusedResult = result;
       },
       getFocusedResult: function () {
         return ResultData.focusedResult;
+      },
+      sortBy: function (selectedOption) {
+        if (selectedOption.units === 'buckets') {
+          if (selectedOption.bucketValues) {
+            ResultData.sortBucketValues = selectedOption.bucketValues;
+          }
+        }
+        ResultData.sortKey = selectedOption.value;
+      },
+      getSortKey: function () {
+        return ResultData.sortKey;
+      },
+      getSortBucketValues: function () {
+        return ResultData.sortBucketValues;
       }
     };
   });
