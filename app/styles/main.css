@@ -78,6 +78,8 @@ md-toast {
 /** SUMMARY **/
 
 #summary {
+	margin-left: 8px;
+	text-align: center;
 	position: fixed;
 	z-index: 1;
 	padding-top: 3rem;

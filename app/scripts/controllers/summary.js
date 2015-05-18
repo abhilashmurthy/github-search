@@ -9,6 +9,7 @@
  */
 angular.module('githubSearchApp')
   .controller('SummaryCtrl', function ($scope, APP_CONFIG, SearchData, ResultData, $mdToast) {
+  		$scope.displayRepoCount = 0;
   		$scope.totalRepoCount = 0;
   		$scope.searchText = '';
   		$scope.searchCategories = [];
@@ -17,6 +18,7 @@ angular.module('githubSearchApp')
 
   		$scope.$on(APP_CONFIG.resetSummary, function (){
   			$scope.selectedSortKey = null;
+  			$scope.displayRepoCount = 0;
   		});
 
   		/* REPORT */
@@ -37,6 +39,15 @@ angular.module('githubSearchApp')
                 }
                 $scope.searchCategories = newVal;
             });
+
+        $scope.$watch(function () {
+        	return ResultData.getRepos();
+        }, function (newVal) {
+			if (typeof newVal === 'undefined') {
+				return;
+			}
+			$scope.displayRepoCount = newVal.length;
+        });
 
 		$scope.$watch(function () {
 				return ResultData.getTotalRepoCount();

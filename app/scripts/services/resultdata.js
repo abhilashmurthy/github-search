@@ -41,7 +41,7 @@ angular.module('githubSearchApp')
         ResultData.sortType = ''; //Reset
         ResultData.sortBucketValues = [];
         if (selectedOption.units === 'buckets') {
-          if (selectedOption.bucketValues) { //Declared buckets in APP_CONFIG
+          if (selectedOption && selectedOption.bucketValues) { //Declared buckets in APP_CONFIG
 
             ResultData.sortBucketValues = selectedOption.bucketValues;
 

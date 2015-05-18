@@ -1,17 +1,15 @@
 <div ng-controller="SummaryCtrl as summCtrl">
-	<div id="summary">
-		<div style="margin-left: 8px;" layout="row" layout-sm="column" layout-align="center center">
-			<div flex>
-				Found 
-				<span class="summaryHighlight">{{totalRepoCount}}</span>
-				repos for <span class="summaryHighlight">{{searchText}}</span>
-			</div>
-			<div flex>
-				Sort by 
-			  <md-select class="summarySelect" placeholder="option" ng-model="selectedSortKey">
-			    <md-option ng-repeat="sortOption in sortOptions" value="{{sortOption.value}}">{{sortOption.label}}</md-option>
-			  </md-select>
-			</div>
+	<div id="summary" layout="row" layout-sm="column" layout-align="center center">
+		<div flex>
+			Showing <span class="summaryHighlight">{{displayRepoCount}}</span>
+			of <span class="summaryHighlight">{{totalRepoCount}}</span>
+			repos for <span class="summaryHighlight">{{searchText}}</span>
+		</div>
+		<div flex>
+			Sort by 
+		  <md-select class="summarySelect" placeholder="option" ng-model="selectedSortKey">
+		    <md-option ng-repeat="sortOption in sortOptions" value="{{sortOption.value}}">{{sortOption.label}}</md-option>
+		  </md-select>
 		</div>
 	</div>
 </div>
