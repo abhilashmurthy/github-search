@@ -144,6 +144,7 @@ angular.module('githubSearchApp')
         return ResultData.sortType;
       },
       getSortBucketValues: function () {
+        ResultData.sortBucketValues.sort();
         return ResultData.sortBucketValues;
       }
     };

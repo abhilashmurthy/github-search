@@ -76,11 +76,28 @@ md-toast {
 }
 
 /** SUMMARY **/
+
+#summary {
+	position: fixed;
+	z-index: 1;
+	padding-top: 3rem;
+	width: 60%;
+	background-color: #fff;
+}
+
 .summaryHighlight {
 	color: rgb(63,81,181);
 }
 
+md-select.summarySelect {
+	margin-top: 0;
+}
+
 /** RESULTS **/
+
+#results {
+	padding-top: 4em;
+}
 
 md-list-item > .md-avatar.focusedResult {
 	width: 128px;
@@ -102,6 +119,12 @@ div.result > div.md-list-item-text h3 {
 md-divider.result {
 	margin-top: 1em;
 }
+
+.md-subheader.sortByHeader {
+	font-size: 1rem;
+	z-index: 0;
+}
+
 /** LOADING **/
 
 .progressCircularDiv {

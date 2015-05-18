@@ -12,7 +12,12 @@ angular.module('githubSearchApp')
   		$scope.totalRepoCount = 0;
   		$scope.searchText = '';
   		$scope.searchCategories = [];
+  		$scope.selectedSortKey = null;
   		$scope.sortOptions = APP_CONFIG.sortOptions;
+
+  		$scope.$on(APP_CONFIG.resetSummary, function (){
+  			$scope.selectedSortKey = null;
+  		});
 
   		/* REPORT */
         $scope.$watch(function () {

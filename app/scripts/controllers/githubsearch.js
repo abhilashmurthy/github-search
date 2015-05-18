@@ -14,6 +14,7 @@ angular
                 e.stopPropagation();
                 $scope.isWelcomeScreen = true;
                 $scope.$broadcast(APP_CONFIG.resetNav); //Reset NavCtrl
+                $scope.$broadcast(APP_CONFIG.resetSummary); //Reset SummaryCtrl
                 $scope.$broadcast(APP_CONFIG.resetResults); // Reset ResultCtrl
             } else {
                 $scope.isWelcomeScreen = false;

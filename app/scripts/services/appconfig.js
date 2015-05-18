@@ -16,11 +16,8 @@ angular.module('githubSearchApp')
   			'label': 'Full Name',
   			'value': 'full_name',
   			'units': 'alphabetical'
-  		}, {
-  			'label': 'Owner Name',
-  			'value': 'owner.login',
-  			'units': 'alphabetical'
-  		},{
+  		},
+      {
   			'label': 'Language',
   			'value': 'language',
   			'units': 'buckets',
@@ -33,6 +30,7 @@ angular.module('githubSearchApp')
   			'bucketValues': [0, 50, 100, 200]
   		}],
     'resetNav': 'resetNavCtrl',
+    'resetSummary': 'resetSummCtrl',
     'resetResults': 'resetResultsCtrl',
 		'categories': [{
 			'name': 'name',
