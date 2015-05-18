@@ -42,8 +42,9 @@ angular.module('githubSearchApp')
 					$mdToast.show(
 						$mdToast.simple()
 						.content('API rate limit: ' + newVal + ' more times')
-						.position('top right')
+						.position('bottom right')
 						.hideDelay(3000)
+						.parent('md-toolbar.navbar')
 					);
 					if (newVal === 0) {
 						$scope.github.reset();

@@ -43,8 +43,9 @@ angular.module('githubSearchApp')
 					$mdToast.show(
 						$mdToast.simple()
 						.content('No results found...')
-						.position('top right')
+						.position('bottom right')
 						.hideDelay(3000)
+						.parent('md-toolbar.navbar')
 					);
 					$scope.github.reset();
 					return;

@@ -54,8 +54,9 @@ angular.module('githubSearchApp')
                     $mdToast.simple()
                     .content('Please enter a keyword with at least 3 chars!')
                     .action('OK')
-                    .position('top right')
+                    .position('bottom right')
                     .hideDelay(3000)
+                    .parent('md-toolbar.navbar')
                 );
                 return false;
             }
@@ -68,8 +69,9 @@ angular.module('githubSearchApp')
                     $mdToast.simple()
                     .content('Please select at least one search category!')
                     .action('OK')
-                    .position('top right')
+                    .position('bottom right')
                     .hideDelay(3000)
+                    .parent('md-toolbar.navbar')
                 );
                 return false;
             }
