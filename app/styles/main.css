@@ -13,6 +13,7 @@ html {
 body {
   padding: 0;
   transform: none !important; /* Override angular's transform on broken sticky navbar */
+  overflow: scroll;
 }
 
 .container {
@@ -68,6 +69,10 @@ md-input-container.md-default-theme:not(.md-input-invalid).md-input-focused .md-
 
 md-option.categoriesOption > div.md-text {
 	width: 100%;
+}
+
+md-toast {
+	top: 6em;
 }
 
 /** SUMMARY **/
