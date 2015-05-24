@@ -3,7 +3,7 @@
 What started off as a simple exercise evolved into a mobile-friendly web app to search all github repositories. A great way to learn material design and angular with the scaffolding tool, yeoman.
 
 Preview:
-![alt tag](http://i.imgur.com/5ltcCnq.png)
+![alt tag](http://i.imgur.com/5ltcCnq.png?1)
 
 ## Features
 - Search Github repos
