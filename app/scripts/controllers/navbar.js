@@ -8,11 +8,16 @@
  * Controller of the githubSearchApp
  */
 angular.module('githubSearchApp')
-  .controller('NavbarCtrl', function ($scope, SearchData, APP_CONFIG, $mdToast) {
+  .controller('NavbarCtrl', function ($scope, SearchData, APP_CONFIG, $mdToast, $timeout) {
         $scope.searchText = null;
         $scope.searchCategories = [];
         $scope.categories = APP_CONFIG.categories;
         $scope.defaultDebounce = APP_CONFIG.debounce;
+
+        $timeout(function() {   //Sets default focus on load
+            angular.element('#searchInput').click();
+            angular.element('#searchText').focus();
+        }, APP_CONFIG.debounce * 4);
 
         $scope.$on(APP_CONFIG.resetNav, function () { //receive $broadcast from parent
             $scope.searchText = null;

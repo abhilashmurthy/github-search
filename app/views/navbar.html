@@ -8,7 +8,7 @@
 				<span id="searchInput" flex>
 					<md-input-container>
 						<label>Search for a Github Repo</label>
-						<input ng-model="searchText" ng-model-options="{debounce: defaultDebounce}" ng-keyup="changeEnteringText($event)">
+						<input id="searchText" ng-model="searchText" ng-model-options="{debounce: defaultDebounce}" ng-keyup="changeEnteringText($event)">
 					</md-input-container>
 				</span>
 				<md-select class="categoriesSelect" aria-label="Categories" multiple=true flex="5"
