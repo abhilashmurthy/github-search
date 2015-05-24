@@ -7,12 +7,13 @@ describe('Service: SearchData', function () {
 
   // instantiate service
   var SearchData;
+  var resetInputs = {
+    searchText: '',
+    searchCategories: [],
+    isEnteringText: false
+  };
   beforeEach(inject(function (_SearchData_) {
     SearchData = _SearchData_;
   }));
-
-  it('should do something', function () {
-    expect(!!SearchData).toBe(true);
-  });
 
 });

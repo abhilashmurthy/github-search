@@ -12,7 +12,6 @@ angular.module('githubSearchApp')
   		$scope.displayRepoCount = 0;
   		$scope.totalRepoCount = 0;
   		$scope.searchText = '';
-  		$scope.searchCategories = [];
   		$scope.selectedSortKey = null;
   		$scope.sortOptions = APP_CONFIG.sortOptions;
 
@@ -29,15 +28,6 @@ angular.module('githubSearchApp')
                     return;
                 }
                 $scope.searchText = newVal;
-            });
-
-        $scope.$watch(function () {
-                return SearchData.getSearchCategories();
-            }, function (newVal) {
-                if (typeof newVal === 'undefined') {
-                    return;
-                }
-                $scope.searchCategories = newVal;
             });
 
         $scope.$watch(function () {

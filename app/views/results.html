@@ -1,7 +1,7 @@
 <div ng-controller="ResultsCtrl as resultsCtrl">
 	<div id="results">
-			<md-content>
-			<div ng-if="sortKey && sortBucketValues.length > 0">
+		<md-content>
+			<div ng-if="sortBucketValues.length > 0">
 				<section
 					infinite-scroll="github.fetchResults()"
 					infinite-scroll-disabled="github.isLoadingNextPage()"
@@ -11,7 +11,7 @@
 						<md-subheader class="sortByHeader md-primary">{{bucketValue ? bucketValue : 'Unspecified'}}</md-subheader>
 						<md-list layout-padding>
 							<div class="result"
-								ng-repeat="repo in github.getRepos() | filter:bucketMatcher(bucketValue, sortType)">
+								ng-repeat="repo in github.getRepos() | filter:bucketMatcher(bucketValue)">
 								<md-list-item class="md-2-line md-clickable"
 									md-ink-ripple="#bbb"
 									ng-click="showDialog(repo)">

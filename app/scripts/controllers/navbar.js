@@ -8,10 +8,9 @@
  * Controller of the githubSearchApp
  */
 angular.module('githubSearchApp')
-  .controller('NavbarCtrl', function ($scope, SearchData, APP_CONFIG, $timeout, $mdToast) {
+  .controller('NavbarCtrl', function ($scope, SearchData, APP_CONFIG, $mdToast) {
         $scope.searchText = null;
         $scope.searchCategories = [];
-    	$scope.isEnteringText = false;
         $scope.categories = APP_CONFIG.categories;
         $scope.defaultDebounce = APP_CONFIG.debounce;
 

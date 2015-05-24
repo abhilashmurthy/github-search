@@ -2,7 +2,7 @@
 
 angular
     .module('githubSearchApp')
-    .controller('GithubSearchCtrl', function ($scope, GITHUB_CONFIG, APP_CONFIG, SearchData, ResultData, $interval) {
+    .controller('GithubSearchCtrl', function ($scope, APP_CONFIG, SearchData, ResultData, $interval) {
         $scope.isWelcomeScreen = true;
         $scope.isEnteringText = false;
         $scope.hasResults = false;

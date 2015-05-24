@@ -1,4 +1,4 @@
-'use strict';
+
 
 describe('Service: APPCONFIG', function () {
 
@@ -6,13 +6,19 @@ describe('Service: APPCONFIG', function () {
   beforeEach(module('githubSearchApp'));
 
   // instantiate service
-  var APPCONFIG;
-  beforeEach(inject(function (_APPCONFIG_) {
-    APPCONFIG = _APPCONFIG_;
+  var APPCONFIG, _;
+  beforeEach(inject(function (_APP_CONFIG_, ___) {
+    APP_CONFIG = _APP_CONFIG_;
+    _ = ___;
   }));
 
-  it('should do something', function () {
-    expect(!!APPCONFIG).toBe(true);
+  it('should init the categories with the correct values and select them by default', function () {
+    expect(_.pluck(APP_CONFIG.categories, 'name')).toEqual(['name', 'description', 'readme']);
+    expect(_.pluck(APP_CONFIG.categories, 'selected')).toEqual([true, true, true]);
+  });
+
+  it('should enable a default debouce for changes in models', function () {
+    expect(APP_CONFIG.debounce).toBe(500);
   });
 
 });

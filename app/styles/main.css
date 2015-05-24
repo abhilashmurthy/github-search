@@ -4,12 +4,6 @@ html {
   font-size: 20px;
 }
 
-@media screen and (max-width: 600px) {
-	html {
-		font-size: 16px;
-	}
-}
-
 body {
   padding: 0;
   transform: none !important; /* Override angular's transform on broken sticky navbar */
@@ -25,6 +19,16 @@ body {
 	top: 3rem;
 }
 
+@media screen and (max-width: 600px) {
+	html {
+		font-size: 16px;
+	}
+
+	.container {
+		width: 80%;
+	}
+}
+
 .welcomeText {
 	font-size: 2rem;
 	color: #bbb;
@@ -36,6 +40,7 @@ body {
 md-toolbar.navbar {
 	position: fixed;
 	top: 0;
+	z-index: 2;
 }
 
 .md-toolbar-tools h2 {
@@ -85,6 +90,12 @@ md-toast {
 	padding-top: 3rem;
 	width: 60%;
 	background-color: #fff;
+}
+
+@media screen and (max-width: 600px) {
+	#summary {
+		width: 80%;
+	}
 }
 
 .summaryHighlight {

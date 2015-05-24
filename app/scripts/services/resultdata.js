@@ -8,21 +8,26 @@
  * Factory in the githubSearchApp.
  */
 angular.module('githubSearchApp')
-  .factory('ResultData', function ($http, GITHUB_CONFIG, APP_CONFIG, _) {
-    var ResultData = {
-      searchQuery: '',
-      repos: [],
-      totalRepoCount: -1,
-      currentPage: 1,
-      lastPage: 1,
-      isLoadingNextPage: false,
-      rateLimitRemaining: -1,
-      apiError: '',
-      focusedResult: {},
-      sortKey: '',
-      sortType: '',
-      sortBucketValues: []
+  .factory('ResultData', function ($http, GITHUB_CONFIG, _) {
+
+    var defaults = function() {
+      return {
+        searchQuery: '',
+        repos: [],
+        totalRepoCount: -1,
+        currentPage: 1,
+        lastPage: 1,
+        isLoadingNextPage: false,
+        rateLimitRemaining: -1,
+        apiError: '',
+        focusedResult: {},
+        sortKey: '',
+        sortType: '',
+        sortBucketValues: []
+      };
     };
+
+    var ResultData = defaults();
 
     var isAbleToFetch = function () {
         if (ResultData.isLoadingNextPage) {
@@ -41,7 +46,7 @@ angular.module('githubSearchApp')
         ResultData.sortType = ''; //Reset
         ResultData.sortBucketValues = [];
         if (selectedOption.units === 'buckets') {
-          if (selectedOption && selectedOption.bucketValues) { //Declared buckets in APP_CONFIG
+          if (selectedOption.bucketValues) { //Declared buckets in APP_CONFIG
 
             ResultData.sortBucketValues = selectedOption.bucketValues;
 
@@ -117,18 +122,7 @@ angular.module('githubSearchApp')
         return ResultData.apiError;
       },
       reset: function () {
-        ResultData.searchQuery = '';
-        ResultData.repos = [];
-        ResultData.totalRepoCount = -1;
-        ResultData.currentPage = 1;
-        ResultData.lastPage = 1;
-        ResultData.isLoadingNextPage = false;
-        ResultData.rateLimitRemaining = -1;
-        ResultData.error = '';
-        ResultData.focusedResult = {};
-        ResultData.sortKey = '';
-        ResultData.sortType = '';
-        ResultData.sortBucketValues = [];
+        ResultData = defaults();
       },
       setFocusedResult: function (result) {
         ResultData.focusedResult = result;

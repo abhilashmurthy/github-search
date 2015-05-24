@@ -1,6 +1,6 @@
-'use strict';
+  
 
-describe('Controller: GithubsearchCtrl', function () {
+describe('Controller: GithubSearchCtrl', function () {
 
   // load the controller's module
   beforeEach(module('githubSearchApp'));
@@ -11,12 +11,17 @@ describe('Controller: GithubsearchCtrl', function () {
   // Initialize the controller and a mock scope
   beforeEach(inject(function ($controller, $rootScope) {
     scope = $rootScope.$new();
-    GithubsearchCtrl = $controller('GithubsearchCtrl', {
+    GithubSearchCtrl = $controller('GithubSearchCtrl', {
       $scope: scope
     });
   }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(scope.awesomeThings.length).toBe(3);
+  it('should open the app with the welcome screen', function () {
+    expect(scope.isWelcomeScreen).toBeTruthy();
+    expect(scope.isEnteringText).toBeFalsy();
+    expect(scope.hasResults).toBeFalsy();
+    expect(scope.isLoadingNextPage).toBeFalsy();
+    expect(scope.hasApiError).toBeFalsy();
   });
+
 });
